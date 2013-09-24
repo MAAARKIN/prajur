@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<ui:include src="addAdvogado.xhtml" />
+		<p:dialog id="DlgGerAdv" resizable="false" widgetVar="gerAdvDlg"
+			modal="true" appendToBody="true" header="Gerenciar Advogados"
+			draggable="false">
+			
+			<p:ajax event="close" update="DlgGerAdv" listener="#{advogadoBean.clean}" />
+			
+			<h:form id="linkNovoAdv" style="float: right;">
+				<h:panelGrid columns="2" style="text-align:right;">
+					<h:outputLabel value="Add Advogado"  onclick="advogadoDlg.show()"/>
+					<p:commandLink id="criarAdvLink" onclick="advogadoDlg.show()">
+						<h:graphicImage library="imagens" name="icones/addMiniPasta.png" />
+					</p:commandLink>
+				</h:panelGrid>
+			</h:form>
+			
+			<div style="clear: both;"></div>
+			<p:separator />
+			<h:form id="gerAdv">
+
+				<p:dataTable id="ListarAdv" value="#{advogadoBean.listar}"
+					var="adv" cellpadding="5" emptyMessage="Não Possui Advogados"
+					filterEvent="enter" styleClass="myTable" scrollable="true"
+					scrollHeight="250" style="width: 900px;">
+
+					<f:facet name="header">Tabela de Advogados</f:facet>
+
+					<p:column headerText="Nome"
+						style="width: 100px; text-align:center;">
+						<h:outputLabel value="#{adv.nome}" />
+					</p:column>
+
+					<p:column headerText="Editar" style="width: 123px; text-align:center;">
+						<p:commandLink id="editarAdv" onclick="advogadoDlg.show()" update=":addAdvogado">
+							<h:graphicImage library="imagens" name="icones/editQuali.png" />
+							<f:setPropertyActionListener target="#{advogadoBean.advogado}" value="#{adv}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Excluir"
+						style="width: 123px; text-align:center;">
+						<p:commandLink id="excluirAdv" action="#{advogadoBean.excluir}" update=":gerAdv ListarAdv"
+							onclick="if(!confirm('Confirma a exclusão do advogado #{adv.nome}?')) return false;">
+							
+							<h:graphicImage library="imagens" name="icones/delete.png" />
+							<f:setPropertyActionListener target="#{advogadoBean.advogado}" value="#{adv}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+
+			</h:form>
+		</p:dialog>
+
+	</h:body>
+</f:view>
+</html>

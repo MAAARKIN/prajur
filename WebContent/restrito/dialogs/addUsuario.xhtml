@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgUSER" resizable="false" widgetVar="userDlg" modal="true" appendToBody="true" header="Cadastro de Usuário no Sistema" draggable="false">
+	<p:ajax event="close" update="DlgUSER" listener="#{usuarioBean.clean}" />
+		<div style="padding: 0!important;">
+		<h:form id="addUsuario">
+			<p:growl id="notifyAddUser" showDetail="true" sticky="true"/>
+			
+			<h:inputHidden value="#{usuarioBean.usuario.codigo}" />
+			<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
+			
+			<h:panelGrid columns="1">
+				
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Login:" for="login" />
+						<p:inputText id="login" label="Login"
+							value="#{usuarioBean.usuario.login}" size="25" maxlength="15"
+							required="true"
+							requiredMessage="Login deve ter no mínimo 5 e máximo 15 caracteres e só pode ter os simbolos '.' e '_' ."
+							validatorMessage="Login deve ter no mínimo 5 e máximo 15 caracteres e só pode ter os simbolos '.' e '_' .">
+							<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}" />
+						</p:inputText>
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Senha:" for="senha" />
+						<p:password id="senha" label="Senha" value="#{usuarioBean.usuario.senha}" size="25" maxlength="10"
+							required="true" redisplay="true" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Confirmar Senha:" for="confirmarSenha" />
+						<p:password id="confirmarSenha" label="Confirmar Senha"
+							value="#{usuarioBean.confirmarSenha}" size="25" maxlength="10"
+							required="true" redisplay="true" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<p:fieldset legend="Perfil"> 
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Nome:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.nome}" size="60" required="true" requiredMessage="Nome não pode ser vazio"
+								validatorMessage="Nome deve conter no minimo '7' caracteres."> 
+									<f:validateLength minimum="7" />
+						</p:inputText>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Profissao:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.profissao}" size="20" />
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="4">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Naturalidade:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.naturalidade}" size="20" />
+					</h:panelGrid>
+						
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Cpf:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.cpf}" size="20" />
+					</h:panelGrid>
+						
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*RG:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.rg}" size="20" />
+					</h:panelGrid>
+						
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*SSP:"/>
+						<p:inputText value="#{usuarioBean.usuario.perfil.orgaoEmissor}" size="10" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				</p:fieldset>	
+				<p:fieldset legend="Endereço">					
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Rua:"/>
+						<p:inputText value="#{usuarioBean.usuario.endereco.logradouro}" size="30" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Bairro:"/>
+						<p:inputText value="#{usuarioBean.usuario.endereco.bairro}" size="30" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Nº:"/>
+						<p:inputText value="#{usuarioBean.usuario.endereco.numero}" size="7" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="4">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Complemento"/>
+						<p:inputText value="#{usuarioBean.usuario.endereco.complemento}" size="15" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Cep"/>
+						<p:inputText value="#{usuarioBean.usuario.endereco.cep}" size="15" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*UF:"/>
+						<h:selectOneMenu id="estado" value="#{usuarioBean.usuario.endereco.cidade.estado}" converter="estadoConverter" required="true" requiredMessage="Estado Obrigatorio">
+							<f:selectItems value="#{usuarioBean.selecionarEstado}" />
+							<p:ajax update="cidade" listener="#{usuarioBean.carregarCidades}" />
+						</h:selectOneMenu>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Cidade:"/>
+						<h:selectOneMenu id="cidade" value="#{usuarioBean.usuario.endereco.cidade}" converter="cidadeConverter" required="true" requiredMessage="Cidade Obrigatorio" >
+							<f:selectItem itemLabel="Selecione a cidade"/>
+							<f:selectItems value="#{usuarioBean.selecionarCidade}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade}" />														
+						</h:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Contato">
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Telefone:"/>
+						<p:inputText value="#{usuarioBean.usuario.contato.telefone}" size="20" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="E-Mail:"/>
+						<p:inputText value="#{usuarioBean.usuario.contato.email}" size="30" />
+					</h:panelGrid>
+				</h:panelGrid>
+				</p:fieldset>			
+			
+			</h:panelGrid>
+			
+			<p:separator/>
+			<p:commandButton action="#{usuarioBean.salvar}" value="Salvar" />
+			<p:commandButton type="reset" value="Limpar" />
+			
+			
+		</h:form>
+	</div>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

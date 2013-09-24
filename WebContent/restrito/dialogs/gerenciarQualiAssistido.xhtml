@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgGerenciarQuali" resizable="false" position="center" widgetVar="gerenciarQualiDlg" modal="true" appendToBody="true" header="Gerenciar Qualificações do Assistido" draggable="false">
+	<p:ajax event="close" update="DlgGerenciarQuali" listener="#{qualiAssistidoBean.clean}"/>
+
+			<div style="float: left;">
+				<h:form id="updateQuali">
+					<p:growl id="notifyQualiAssistido"/>
+					<h:inputHidden value="#{qualiAssistidoBean.qualiAssistido.codigo}" />
+					<h:panelGrid id="gridQuali">
+						
+						<h:panelGrid>
+							<h:outputText value="*Tipo de Pessoa: " />  
+								<p:selectOneRadio id="options" value="#{qualiAssistidoBean.qualiAssistido.perfil.tipoPessoa}" immediate="true" required="true" requiredMessage="Escolha o tipo de Pessoa">  
+							    	<f:selectItem itemLabel="Física" itemValue="Física" />  
+							        <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+							        <p:ajax update="tipoQP grupoqpSexo" />							            
+							    </p:selectOneRadio> 
+							</h:panelGrid>
+								
+							<h:panelGrid columns="2">
+							<h:panelGroup id="grupopNome">
+								<h:panelGrid columns="1">
+									<h:outputLabel value="*Nome:" for="nome" />
+									<p:inputText id="nome" value="#{qualiAssistidoBean.qualiAssistido.perfil.nome}" size="70" required="true" requiredMessage="Nome do Qualificado é obrigatório"/>
+								</h:panelGrid>
+							</h:panelGroup>
+									
+							<h:panelGroup id="grupoqpSexo">
+							<h:panelGrid columns="1" rendered="#{qualiAssistidoBean.qualiAssistido.perfil.tipoPessoa == 'Física'}">
+								<h:outputLabel value="*Sexo:"/>
+								<h:selectOneMenu id="Sexo" value="#{qualiAssistidoBean.qualiAssistido.perfil.sexo}" required="true" requiredMessage="*Campo Sexo Obrigatorio" >
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+									<f:selectItem itemLabel="Feminino" itemValue="Feminino"/>															
+								</h:selectOneMenu>
+							</h:panelGrid>
+							</h:panelGroup>
+							
+							</h:panelGrid>
+
+						<h:panelGrid columns="2">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Profissao:" for="profissao" />
+										<p:inputText id="profissao" value="#{qualiAssistidoBean.qualiAssistido.perfil.profissao}" size="30"/>
+									</h:panelGrid>
+									
+									<h:panelGroup id="tipoQP">
+									<h:panelGroup id="fisica" rendered="#{qualiAssistidoBean.qualiAssistido.perfil.tipoPessoa == 'Física'}">
+										<h:panelGrid columns="2">
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Cpf:" for="cpf" />
+												<p:inputMask id="cpf" value="#{qualiAssistidoBean.qualiAssistido.perfil.cpf}" mask="999.999.999-99" size="20" required="true"/>
+											</h:panelGrid>
+											
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Rg:" for="rg" />
+												<p:inputText id="rg" value="#{qualiAssistidoBean.qualiAssistido.perfil.rg}" size="25"/>
+											</h:panelGrid>
+										</h:panelGrid>
+									</h:panelGroup>
+									
+									<h:panelGroup id="juridica" rendered="#{qualiAssistidoBean.qualiAssistido.perfil.tipoPessoa == 'Jurídica'}">
+										<h:panelGrid columns="1">
+											<h:outputLabel value="*Cnpj:" for="cnpj" />
+											<p:inputMask id="cnpj" value="#{qualiAssistidoBean.qualiAssistido.perfil.cnpj}" mask="99.999.999/9999-99" size="20"/>
+										</h:panelGrid>
+									</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGrid>
+
+						<h:panelGrid columns="2">
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Endereço:" />
+								<p:inputText value="#{qualiAssistidoBean.qualiAssistido.endereco.logradouro}" size="40" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Bairro:" />
+								<p:inputText value="#{qualiAssistidoBean.qualiAssistido.endereco.bairro}" size="40" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="4">
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Cep:" />
+								<p:inputText value="#{qualiAssistidoBean.qualiAssistido.endereco.cep}" size="20" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="*UF:" />
+								<h:selectOneMenu id="estado" value="#{qualiAssistidoBean.qualiAssistido.endereco.cidade.estado}"
+									converter="estadoConverter" required="true"
+									requiredMessage="Estado Obrigatorio" style="width: 50px;">
+									<f:selectItems value="#{qualiAssistidoBean.selecionarEstado}" />
+									<p:ajax update="cidade" listener="#{qualiAssistidoBean.carregarCidades}" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="*Cidade:" />
+								<h:selectOneMenu id="cidade" value="#{qualiAssistidoBean.qualiAssistido.endereco.cidade}"
+									converter="cidadeConverter" required="true"
+									requiredMessage="Cidade Obrigatorio">
+									<f:selectItem itemLabel="Selecione a cidade" />
+									<f:selectItems value="#{qualiAssistidoBean.selecionarCidade}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Naturalidade:" />
+								<p:inputText value="#{qualiAssistidoBean.qualiAssistido.perfil.naturalidade}" size="25" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+					</h:panelGrid>
+					
+					<p:commandButton id="Novo" value="Novo" actionListener="#{qualiAssistidoBean.clean}" update="updateQuali" process="@this"/>
+					<p:commandButton value="Salvar" icon="ui-icon-check" action="#{qualiAssistidoBean.salvar}"
+						update=":uplistarQuali notifyQualiAssistido updateQuali gridQuali" style="margin:0" />
+					<p:commandButton id="Excluir" value="Excluir" action="#{qualiAssistidoBean.excluir}" disabled="#{qualiAssistidoBean.showExcluirButton}" update=":uplistarQuali notifyQualiAssistido updateQuali" 
+					onclick="if(!confirm('Confirma a exclusão de #{qualiAssistidoBean.qualiAssistido.perfil.nome}?')) return false;" />	
+						
+				</h:form>
+			</div>
+
+			<div style="float: right;">
+				<h:form id="uplistarQuali">
+					<p:dataTable id="ListarQualiAssist" value="#{qualiAssistidoBean.listar}" styleClass="myTable"
+								 var="quali" cellpadding="5" emptyMessage="Não Possui Qualificados" scrollable="true"
+								 scrollHeight="80" rowKey="#{quali.codigo}" selection="#{qualiAssistidoBean.qualiAssistido}" selectionMode="single" >
+								 
+						<p:ajax event="rowSelect" update=":updateQuali" global="true" immediate="true"/>
+						
+						<p:column headerText="Nome" style="width:200px;">
+							#{quali.perfil.nome}
+						</p:column>
+
+					</p:dataTable>
+				</h:form>							
+			</div>
+			<div style="clear: both;"></div>				
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

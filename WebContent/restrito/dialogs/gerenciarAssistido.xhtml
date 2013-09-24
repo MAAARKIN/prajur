@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<ui:include src="gerenciarPasta.xhtml"/>
+	<ui:include src="addAssistido.xhtml"/>
+	
+	<p:dialog id="DlgGerASSISTIDO" resizable="false" widgetVar="gerAssistidoDlg" modal="true" appendToBody="true" header="Gerenciar Assistido" draggable="false">
+	<p:ajax event="close" update="DlgGerASSISTIDO"/>	
+	<p:growl id="notifyGerAssistido" showDetail="true" sticky="true"/>
+		
+		<h:form id="linkAssistido" style="float: right;">
+			<h:panelGrid columns="2" style="text-align:right;">
+				<h:outputLabel value="Cadastrar Assistido" onclick="assistidoDlg.show()"/>
+				<p:commandLink id="criarAssistLink" onclick="assistidoDlg.show()">
+					<h:graphicImage library="imagens" name="icones/addMiniPasta.png" value="Criar Assistido" />
+				</p:commandLink>
+			</h:panelGrid>
+		</h:form>
+		<div style="clear: both;"></div>
+		<p:separator/>
+	
+		<h:form id="gerAssistido">
+		
+			<p:dataTable id="ListarAssistido" value="#{assistidoBean.listar}" var="assistido" 
+				cellpadding="5" rows="5" emptyMessage="Não Possui Assistidos" filterEvent="enter">
+				
+					<f:facet name="header">Tabelas de Assistidos Cadastrados</f:facet>
+									
+					<p:column headerText="Nome" filterBy="#{assistido.perfil.nome}" style="width:350px;">
+						<h:outputLabel value="#{assistido.perfil.nome}" />
+					</p:column>		
+					
+					<p:column headerText="Cpf" filterBy="#{assistido.perfil.cpf}" style="width:250px; text-align:center;">
+						<h:outputLabel value="#{assistido.perfil.cpf}" />
+					</p:column>
+					
+					<p:column headerText="Pastas" style="width:50px; text-align:center;">
+						<p:commandLink id="pastaLink" onclick="gerPastaDlg.show()" update=":gerPasta" >
+							<h:graphicImage library="imagens" name="icones/miniPasta.png" />
+							<f:setPropertyActionListener target="#{pastaBean.assistido}" value="#{assistido}" />
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+		
+				
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

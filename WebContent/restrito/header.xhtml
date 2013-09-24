@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">
+<head>
+
+</head>
+<body>
+	<ui:composition>
+	<ui:include src="dialogs/gerenciarTipoProc.xhtml" />
+	<ui:include src="dialogs/gerenciarTipoMovimento.xhtml" />
+	
+		<h:form>
+<!-- 		Menu Principal -->
+				<p:menubar>
+					<p:menuitem value="Inicio" url="/restrito/index.jsf" />
+					
+					<p:menuitem value="Relatórios" url="#" />
+					<p:submenu label="Documentos">
+						<p:submenu label="Processos" >
+							<p:menuitem value="Processo 1" url="#" />
+							<p:menuitem value="Processo 2" url="#" />
+						</p:submenu>
+						<p:separator />
+						<p:menuitem value="Outro Documento" url="#" />
+					</p:submenu>
+					
+					<p:submenu label="Configurações">
+						<p:menuitem value="Gerenciar Procedimento" onclick="gerTipProcDlg.show()" />
+						<p:menuitem value="Gerenciar Movimento" onclick="gerTipMovDlg.show()" />
+					</p:submenu>
+					
+
+				</p:menubar>
+			</h:form>
+		
+	</ui:composition>
+		
+</body>
+</f:view>
+</html>

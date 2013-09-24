@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgAddCaso" resizable="false" widgetVar="addCasoDlg" modal="true" appendToBody="true" 
+			  header="Adicionar Caso" draggable="false">
+	<p:ajax event="close" update="DlgAddCaso" listener="#{casoBean.clean}" oncomplete="wiz.loadStep(wiz.cfg.steps[0], true)" />
+		<p:growl id="notifyAddCaso" showDetail="true" sticky="true"/>
+		
+		<h:form id="formCaso">
+			
+			<p:wizard id="wizID" widgetVar="wiz" styleClass="myWizard" backLabel="Voltar" nextLabel="Próximo">
+				<p:tab id="procedimento" title="Procedimento">
+					<p:panel header="Escolha o procedimento atual">
+						<p:autoComplete id="procDD" dropdown="true" value="#{casoBean.proc.tipoProcedimento}"   
+                    					completeMethod="#{casoBean.completeProc}" converter="tipoProcedimentoConverter"
+                    					var="proc" itemValue="#{proc}" itemLabel="#{proc.descricao}" required="true"
+                    					requiredMessage="Você não definiu nada" />
+                    	<p:message id="ProcMessage" for="procDD" display="text" />
+					</p:panel>
+				</p:tab>
+				
+				<p:tab id="professor" title="Professor">
+					<p:panel header="Escolha o professor">
+						<p:autoComplete id="profDD" dropdown="true" value="#{casoBean.prof}"   
+                    					completeMethod="#{casoBean.completeProf}" converter="professorConverter"
+                    					var="prof" itemValue="#{prof}" itemLabel="#{prof.nome}" required="true"
+                    					requiredMessage="Você não definiu nada" />
+                    	<p:message id="ProfMessage" for="profDD" display="text" />
+					</p:panel>
+				</p:tab>
+				
+				<p:tab id="estagiarios" title="Estagiários">
+					<p:panel header="Escolha os estagiários">
+				        <div>
+				        	<div style="float: left;">
+				        		<h:panelGrid columns="2">
+				        							     
+						        		<h:selectOneMenu id="estagiario" value="#{casoBean.estagiario}" converter="estagiarioConverter">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+											<f:selectItems value="#{casoBean.estagiarios}" var="est" itemLabel="#{est.nome}" itemValue="#{est}" />														
+										</h:selectOneMenu>
+						        		<p:commandLink actionListener="#{casoBean.addEstagiario}" 
+						        					   update="ListarEst :notifyAddCaso" style="margin:0">
+						        			<h:graphicImage library="imagens" name="icones/add.png" value="Adicionar Estagiário" /> 
+						        		</p:commandLink>
+				        			
+				        		</h:panelGrid>
+				        	</div>
+				        	<div style="float: right;">
+							<p:dataTable id="ListarEst" value="#{casoBean.estTemp}" styleClass="myTable"
+								var="est" cellpadding="5" emptyMessage="Não Possui Estagiários" scrollable="true"
+								scrollHeight="80">
+
+								<p:column headerText="Nome" style="width:200px;">
+									<h:outputLabel value="#{est.nome}" />
+								</p:column>
+
+							</p:dataTable>
+							</div>
+						</div>
+						<div style="clear: both"></div>
+					</p:panel>
+				</p:tab>
+				
+				<p:tab id="Advogado" title="Advogados">
+					<p:panel header="Escolha os advogados">
+				        <div>
+				        	<div style="float: left;">
+				        		<h:panelGrid columns="2">					     
+						        		<h:selectOneMenu id="advogAdd" value="#{casoBean.advogado}" converter="advogadoConverter">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+											<f:selectItems value="#{casoBean.advogados}" var="adv" itemLabel="#{adv.nome}" itemValue="#{adv}" />														
+										</h:selectOneMenu>
+						        		<p:commandLink actionListener="#{casoBean.addAdvogado}" 
+						        					   update="ListarAdv :notifyAddCaso" style="margin:0">
+						        			<h:graphicImage library="imagens" name="icones/add.png" value="Adicionar Advogado" /> 
+						        		</p:commandLink>
+				        		</h:panelGrid>
+				        	</div>
+				        	<div style="float: right;">
+							<p:dataTable id="ListarAdv" value="#{casoBean.advTemp}" styleClass="myTable"
+								var="adv" cellpadding="5" emptyMessage="Não Possui Advogados" scrollable="true"
+								scrollHeight="80">
+
+								<p:column headerText="Nome" style="width:200px;">
+									<h:outputLabel value="#{adv.nome}" />
+								</p:column>
+
+							</p:dataTable>
+							</div>
+						</div>
+						<div style="clear: both"></div>
+					</p:panel>
+				</p:tab>
+				
+				<p:tab id="movimento" title="Movimentação">
+					<p:panel header="Escolha a movimentação atual">
+						<p:autoComplete id="movDD" dropdown="true" value="#{casoBean.mov.tipoMovimento}"   
+                    					completeMethod="#{casoBean.completeMov}" converter="tipoMovimentoConverter"
+                    					var="mov" itemValue="#{mov}" itemLabel="#{mov.descricao}" required="true"
+                    					requiredMessage="Você não definiu nada" />
+                    	<p:message id="MovMessage" for="movDD" display="text" />
+					</p:panel>
+				</p:tab>
+				
+				<p:tab id="confirmacao" title="Confirmação">
+					<p:panel header="Confirmação dos Dados">
+					
+						<div>
+					        <div style="float: left;">
+					        	<h:panelGrid columns="2">
+					        		<h:outputLabel value="Assistido: " style="font-weight: bold" />
+					        		<h:outputLabel value="#{casoBean.caso.pasta.assistido.perfil.nome}" />
+					        	</h:panelGrid>
+					        	<h:panelGrid columns="2">
+						        	<h:outputLabel value="Cpf: " style="font-weight: bold" />
+						        	<h:outputLabel value="#{casoBean.caso.pasta.assistido.perfil.cpf}" />
+					        	</h:panelGrid>
+					        	
+					        </div>
+					        <div style="float: right;">
+					        	<h:panelGrid>
+						        	<h:outputLabel value="Observação:" />
+									<p:inputTextarea value="#{casoBean.caso.observacao}" cols="30" rows="4"/>
+					        	</h:panelGrid>
+								
+							<p:commandButton id="salvarCaso" value="Salvar" action="#{casoBean.salvar}" 
+											 update=":notifyAddCaso" style="float:right;"/>
+							</div>
+						<div style="clear: both"></div>
+						</div>
+					</p:panel>
+				</p:tab>
+					
+			</p:wizard>
+			
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>
