@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgASSISTIDO" resizable="false" widgetVar="assistidoDlg" modal="true" appendToBody="true" header="Cadastro do Assistido" draggable="false">
+	<p:ajax event="close" update="DlgASSISTIDO" listener="#{assistidoBean.clean}" />
+		<h:form id="addAssistido">
+			<h:message for="cpf"/>
+			<p:growl id="notifyAddAssistido" showDetail="true" sticky="true"/>
+		
+			<h:inputHidden value="#{assistidoBean.assistido.codigo}" />
+			<h:panelGrid id="MasterGrid">
+				<h:panelGrid columns="2">
+				
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Nome:" for="nome" />
+						<p:inputText id="nome" value="#{assistidoBean.assistido.perfil.nome}" size="70"/>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Sexo:"/>
+						<h:selectOneMenu id="Sexo" value="#{assistidoBean.assistido.perfil.sexo}" required="true" requiredMessage="*Campo Obrigatorio" >
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+							<f:selectItem itemLabel="Feminino" itemValue="Feminino"/>															
+						</h:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Profissao:" for="profissao" />
+						<p:inputText id="profissao" value="#{assistidoBean.assistido.perfil.profissao}" size="30"/>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Cpf:" for="cpf" />
+						<p:inputMask id="cpf" value="#{assistidoBean.assistido.perfil.cpf}" mask="999.999.999-99" size="20" required="true">
+							<stella:validateCPF formatted="true"/>
+							<f:validator validatorId="br.com.prajur.validator.CpfValidator" />
+						</p:inputMask>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Rg:" for="rg" />
+						<p:inputText id="rg" value="#{assistidoBean.assistido.perfil.rg}" size="25"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Endereço:" />
+						<p:inputText value="#{assistidoBean.assistido.endereco.logradouro}" size="40" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Bairro:" />
+						<p:inputText value="#{assistidoBean.assistido.endereco.bairro}" size="40" />
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="4">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Cep:" />
+						<p:inputMask id="cep" value="#{assistidoBean.assistido.endereco.cep}" mask="99999-999" size="20"/>						
+					</h:panelGrid>	
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*UF:"/>
+						<p:inputMask value="#{assistidoBean.assistido.endereco.estado}" size="5" mask="aa" onblur="value = value.toUpperCase()"/>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Cidade:"/>
+						<p:inputText value="#{assistidoBean.assistido.endereco.cidade}" size="40" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Naturalidade:" />
+						<p:inputText value="#{assistidoBean.assistido.perfil.naturalidade}" size="25" />
+					</h:panelGrid>	
+				</h:panelGrid>
+					
+			</h:panelGrid>
+			
+			<p:separator/>			
+			
+			<p:commandButton value="Novo" actionListener="#{assistidoBean.clean}" update=":addAssistido" process="@this"/>
+			<p:commandButton id="salvarAssistido" action="#{assistidoBean.salvar}" value="Salvar" update="notifyAddAssistido addAssistido :buttons :gerAssistido"/>
+			
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

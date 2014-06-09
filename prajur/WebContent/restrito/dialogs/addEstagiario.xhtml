@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgESTAG" resizable="false" widgetVar="estagiarioDlg" modal="true" appendToBody="true" header="Gerenciar Estagiário no Sistema" draggable="false">
+	<p:ajax event="close" update="DlgESTAG" listener="#{estagiarioBean.clean}" />
+		<h:form id="addEstagiario">
+			<p:growl id="notifyAddEstagiario" showDetail="true" sticky="true"/>
+			
+			<h:inputHidden value="#{estagiarioBean.estagiario.codigo}" />
+			
+			<p:fieldset legend="Perfil"> 
+				<h:panelGrid columns="1">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Nome:"/>
+						<p:inputText value="#{estagiarioBean.estagiario.nome}" size="80" required="true" requiredMessage="Nome não pode ser vazio"
+								validatorMessage="Nome deve conter no minimo '7' caracteres."> 
+									<f:validateLength minimum="7" />
+						</p:inputText>
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Matrícula:"/>
+						<p:inputText value="#{estagiarioBean.estagiario.matricula}" size="20" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Cpf:"/>
+						<p:inputMask id="cpf" value="#{estagiarioBean.estagiario.cpf}" mask="999.999.999-99" size="20" 
+									required="true" requiredMessage="Cpf Obrigatorio"/>
+					</h:panelGrid>					
+				</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Contato">
+				<h:panelGrid columns="3">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Telefone:"/>
+						<p:inputText value="#{estagiarioBean.estagiario.contato.telefone}" size="20" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="E-Mail:"/>
+						<p:inputText value="#{estagiarioBean.estagiario.contato.email}" size="30" validatorMessage="E-mail invalido" >
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+						</p:inputText>
+					</h:panelGrid>
+				</h:panelGrid>
+				</p:fieldset>
+			
+			<p:separator/>
+			<p:commandButton value="Novo" 
+							disabled="#{estagiarioBean.disableNovo}" 
+							actionListener="#{estagiarioBean.clean}" 
+							update=":addEstagiario" 
+							process="@this"/>
+				
+			<p:commandButton id="salvarOrg" 
+							value="Salvar" 
+							action="#{estagiarioBean.salvar}" 
+							update="notifyAddEstagiario addEstagiario :gerEst"/>			
+			
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

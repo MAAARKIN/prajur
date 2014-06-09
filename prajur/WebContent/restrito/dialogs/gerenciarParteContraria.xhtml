@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgGerenciarParte" resizable="false" position="center" widgetVar="gerenciarParteDlg" modal="true" appendToBody="true" header="Gerenciar Parte Contraria" draggable="false">
+	<p:ajax event="close" update="DlgGerenciarParte" listener="#{parteContrariaBean.clean}"/>
+
+			<div style="float: left;">
+				<h:form id="updateParte">
+					<p:growl id="notifyParteContraria"/>
+					<h:inputHidden value="#{parteContrariaBean.parte.codigo}" />
+					<h:panelGrid id="gridParte">
+						<h:panelGrid>
+							<h:outputText value="*Tipo de Pessoa: " />  
+							<p:selectOneRadio id="options" value="#{parteContrariaBean.parte.perfil.tipoPessoa}" immediate="true" required="true" requiredMessage="Escolha o tipo de Pessoa" >  
+								<f:selectItem itemLabel="Física" itemValue="Física" />  
+							    <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+							    <p:ajax update="tipoPCT grupoSexoC" />							            
+							</p:selectOneRadio> 
+						</h:panelGrid>
+							
+						<h:panelGrid columns="2" id="group">							
+							<h:panelGroup id="grupoNome">
+								<h:panelGrid columns="1">
+									<h:outputLabel value="*Nome:" for="nome" />
+									<p:inputText id="nome" value="#{parteContrariaBean.parte.perfil.nome}" size="70" required="true" requiredMessage="Nome do Qualificado é obrigatório"/>
+								</h:panelGrid>
+							</h:panelGroup>
+									
+							<h:panelGroup id="grupoSexoC">
+								<h:panelGrid columns="1" rendered="#{parteContrariaBean.parte.perfil.tipoPessoa == 'Física'}">
+									<h:outputLabel value="*Sexo:"/>
+									<h:selectOneMenu id="Sexo" value="#{parteContrariaBean.parte.perfil.sexo}" required="true" requiredMessage="*Campo Sexo Obrigatorio" >
+										<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+										<f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+										<f:selectItem itemLabel="Feminino" itemValue="Feminino"/>															
+									</h:selectOneMenu>
+								</h:panelGrid>
+							</h:panelGroup>
+								
+						</h:panelGrid>
+
+						<h:panelGrid columns="3">
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Profissao:" for="profissao" />
+								<p:inputText id="profissao" value="#{parteContrariaBean.parte.perfil.profissao}" size="30"/>
+							</h:panelGrid>
+									
+							<h:panelGroup id="tipoPCT">
+								<h:panelGroup id="fisica" rendered="#{parteContrariaBean.parte.perfil.tipoPessoa == 'Física'}">
+								<h:panelGrid columns="2">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Cpf:" for="cpf" />
+										<p:inputMask id="cpf" value="#{parteContrariaBean.parte.perfil.cpf}" mask="999.999.999-99" size="20" required="true"/>
+									</h:panelGrid>
+											
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Rg:" for="rg" />
+										<p:inputText id="rg" value="#{parteContrariaBean.parte.perfil.rg}" size="25"/>
+									</h:panelGrid>
+								</h:panelGrid>
+								</h:panelGroup>
+									
+								<h:panelGroup id="juridica" rendered="#{parteContrariaBean.parte.perfil.tipoPessoa == 'Jurídica'}">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Cnpj:" for="cnpj" />
+										<p:inputMask id="cnpj" value="#{parteContrariaBean.parte.perfil.cnpj}" mask="99.999.999/9999-99" size="20"/>
+									</h:panelGrid>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Endereço:" />
+								<p:inputText value="#{parteContrariaBean.parte.endereco.logradouro}" size="40" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Bairro:" />
+								<p:inputText value="#{parteContrariaBean.parte.endereco.bairro}" size="40" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="4">
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Cep:" />
+								<p:inputText value="#{parteContrariaBean.parte.endereco.cep}" size="20" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="*UF:" />
+								<p:inputMask value="#{parteContrariaBean.parte.endereco.estado}" size="5" mask="aa" onblur="value = value.toUpperCase()"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<h:outputLabel value="*Cidade:" />
+								<p:inputText value="#{parteContrariaBean.parte.endereco.cidade}" size="40" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Naturalidade:" />
+								<p:inputText value="#{parteContrariaBean.parte.perfil.naturalidade}" size="25" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+					</h:panelGrid>
+					
+					<p:commandButton id="Novo" value="Novo" actionListener="#{parteContrariaBean.clean}" update="updateParte" process="@this"/>
+					<p:commandButton value="Salvar" icon="ui-icon-check" action="#{parteContrariaBean.salvar}"
+						update=":uplistarParte notifyParteContraria updateParte gridParte" style="margin:0" />
+					<p:commandButton id="Excluir" value="Excluir" action="#{parteContrariaBean.excluir}" disabled="#{parteContrariaBean.showExcluirButton}" update=":uplistarParte notifyParteContraria updateParte" 
+					onclick="if(!confirm('Confirma a exclusão de #{parteContrariaBean.parte.perfil.nome}?')) return false;" />	
+						
+				</h:form>
+			</div>
+
+			<div style="float: right;">
+				<h:form id="uplistarParte">
+					<p:dataTable id="ListarParteContraria" value="#{parteContrariaBean.listar}" styleClass="myTable"
+								 var="parte" cellpadding="5" emptyMessage="Não Possui Parte Contraria" scrollable="true"
+								 scrollHeight="80" rowKey="#{parte.codigo}" selection="#{parteContrariaBean.parte}" selectionMode="single" >
+								 
+						<p:ajax event="rowSelect" update=":updateParte" global="true" immediate="true"/>
+						
+						<p:column headerText="Nome" style="width:200px;">
+							#{parte.perfil.nome}
+						</p:column>
+
+					</p:dataTable>
+				</h:form>							
+			</div>
+			<div style="clear: both;"></div>				
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

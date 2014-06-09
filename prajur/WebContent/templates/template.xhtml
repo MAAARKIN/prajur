@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Prajur</title>
+	<h:outputStylesheet library="css" name="template.css"/>
+</h:head>
+	
+<body>
+	
+	<div id="tudo">
+		
+		<div id="topo">
+			<div class="conteudo">
+				
+				<div class="logo">
+					<h:graphicImage library="imagens" name="headerlogo.png" />
+				</div>
+				
+				<div class="menu">
+					<ui:include src="/restrito/header.xhtml"/>
+				 </div>
+							
+				<div class="empurra"> </div>
+			</div>
+			<div class="header-bottom"></div>
+			<div style="clear: both"></div>
+		</div>
+		
+		<div id="conteudo" style="margin-bottom: 40px;">
+			<div class="conteudo-main">
+<!-- 				<div class="content"> -->
+					<ui:insert name="content">
+	
+					</ui:insert>
+<!-- 				</div> -->
+				<div style="clear: both; padding: 5px;"></div>
+			</div>
+			
+			<div id="clear"></div>
+		</div>
+		
+		<div style="height: 10px;"></div>		
+		<div id="rodape">
+			<div class="copyright">
+				<div class="content">
+					<ui:insert name="footer">
+						<ui:include src="/restrito/rodape.xhtml"/>
+					</ui:insert>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

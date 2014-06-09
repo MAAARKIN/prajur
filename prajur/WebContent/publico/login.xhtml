@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" >
+<h:body>
+	<ui:composition template="../templates/login.xhtml">
+		
+		<ui:define name="logomarca">
+			<div id="logo" style="width: 400px; height: 150; margin-left: auto; margin-right: auto;">
+				<h:graphicImage library="imagens" name="headerlogo.png" />
+			</div>
+		</ui:define>
+				
+		<ui:define name="content">	
+			
+		<h:form	id="loginForm"	prependId="false">
+		<h:panelGrid columns="2">
+		
+			<h:outputText value="Usuário:" style="font-size: 14px; color: white;" />
+			<p:inputText id="j_username" value="#{loginBean.username}" required="true" requiredMessage="Requer um usuario, insira o usuario"/> 
+			<h:outputText value="Senha:" style="font-size: 14px; color: white;" />
+			<p:password id="j_password" value="#{loginBean.password}" required="true" requiredMessage="Requer uma senha, insira a senha"/>
+ 
+			<p:commandButton id="login" actionListener="#{loginBean.doLogin}" value="Login" ajax="false" /> 
+		</h:panelGrid>
+		</h:form>
+		
+		<h:panelGroup rendered="#{!empty param.login_error}">
+				<span style="font-color:red">Erro ao efetuar o login.</span><br />
+				<br />
+				Motivo: #{SPRING_SECURITY_LAST_EXCEPTION.message}
+		</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<ui:include src="criarPasta.xhtml"/>
+	<ui:include src="gerenciarQualiAssistido.xhtml"/>
+	<ui:include src="gerenciarParteContraria.xhtml"/>
+	<ui:include src="gerenciarDocumento.xhtml"/>
+	<ui:include src="gerenciarTriagem.xhtml"/>
+	<ui:include src="addCaso.xhtml"/>
+	
+	<p:dialog id="DlgGerPasta" resizable="false" widgetVar="gerPastaDlg" modal="true" appendToBody="true" header="Gerenciar Pastas" draggable="false">
+	<p:ajax event="close" update="DlgGerPasta" listener="#{pastaBean.clean}"/>
+	<p:growl id="notifyGerPasta"/>	
+		<h:form id="linkPasta" style="float: right;">
+			<h:panelGrid columns="2" style="text-align:right;">
+				<h:outputLabel value="Criar Pasta" onclick="criarPastaDlg.show()"/>
+				<p:commandLink id="criarPastaLink" onclick="criarPastaDlg.show()">
+					<h:graphicImage library="imagens" name="icones/addMiniPasta.png" value="Criar Pasta" />
+				</p:commandLink>
+			</h:panelGrid>
+		</h:form>
+		<div style="clear: both;"></div>
+		<p:separator/>
+		<h:form id="gerPasta">
+				
+			<p:dataTable id="ListarPasta" value="#{pastaBean.listar}" var="pasta" 
+				cellpadding="5" emptyMessage="Não Possui Pastas" filterEvent="enter" 
+				styleClass="myTable" scrollable="true" scrollHeight="250" style="width: 950px;">
+				
+					<f:facet name="header">Pastas de #{pastaBean.assistido.perfil.nome}</f:facet>
+									
+					<p:column headerText="Codigo" style="width: 66px; text-align:center;">
+						<h:outputLabel value="#{pasta.codigo}" />
+					</p:column>		
+					
+					<p:column headerText="Assistido" style="width: 200px; text-align:center;">
+						<h:outputLabel value="#{pasta.assistido.perfil.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data" style="width: 95px; text-align:center;">
+						<h:outputLabel value="#{pasta.data}" />
+					</p:column>
+					
+					<p:column headerText="Qualificados" style="width: 120px; text-align:center;">
+						<p:commandLink id="qualiLink" onclick="gerenciarQualiDlg.show()" update=":uplistarQuali :updateQuali" >
+							<h:graphicImage library="imagens" name="icones/qualiAssist.png" />
+							<f:setPropertyActionListener target="#{qualiAssistidoBean.pasta}" value="#{pasta}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Parte Contraria" style="width: 123px; text-align:center;">
+						<p:commandLink id="parteLink" onclick="gerenciarParteDlg.show()" update=":uplistarParte :updateParte" >
+							<h:graphicImage library="imagens" name="icones/parteCont.png" />
+							<f:setPropertyActionListener target="#{parteContrariaBean.pasta}" value="#{pasta}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Documentos" style="width: 120px; text-align:center;">
+						<p:commandLink id="docLink" onclick="gerenciarDocDlg.show()" update=":gerDoc" >
+							<h:graphicImage library="imagens" name="icones/documents.png" />
+							<f:setPropertyActionListener target="#{documentoBean.pasta}" value="#{pasta}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Triagem" style="width: 109px; text-align:center;">
+						<p:commandLink id="triagemLink" onclick="gerenciarTriDlg.show()" update=":gerTri" >
+							<h:graphicImage library="imagens" name="icones/editQuali.png" />
+							<f:setPropertyActionListener target="#{triagemBean.triagem}" value="#{pasta.triagem}" />
+							<f:setPropertyActionListener target="#{triagemBean.pasta}" value="#{pasta}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Caso" style="text-align:center;">
+						<p:commandLink id="casoLink" action="#{pastaBean.abrirCaso}"
+									   rendered="#{pasta.contemCaso == false}" update=":notifyGerPasta" >
+							<h:graphicImage library="imagens" name="icones/caso.png" />
+							<f:setPropertyActionListener target="#{casoBean.caso.pasta}" value="#{pasta}" />
+							<f:setPropertyActionListener target="#{pastaBean.pasta}" value="#{pasta}" />
+						</p:commandLink>
+						
+						<h:graphicImage library="imagens" name="icones/blankCaso.png" rendered="#{pasta.contemCaso == true}" />
+					</p:column>
+					
+				</p:dataTable>
+		
+				
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

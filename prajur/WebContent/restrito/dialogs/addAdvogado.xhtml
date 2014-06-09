@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgAdvogado" resizable="false" widgetVar="advogadoDlg" modal="true" appendToBody="true" header="Cadastro de Advogado" draggable="false">
+	<p:ajax event="close" update="DlgAdvogado" listener="#{advogadoBean.clean}" />
+		<h:form id="addAdvogado">
+			<p:growl id="notifyAddAdvogado" showDetail="true" sticky="true"/>
+			
+			<h:inputHidden value="#{advogadoBean.advogado.codigo}" />
+			
+			<p:fieldset legend="Perfil"> 
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="*Nome:"/>
+						<p:inputText value="#{advogadoBean.advogado.nome}" size="55" required="true" requiredMessage="Nome não pode ser vazio"
+								validatorMessage="Nome deve conter no minimo '7' caracteres."> 
+									<f:validateLength minimum="7" />
+						</p:inputText>
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				</p:fieldset>
+				
+			<p:separator/>
+			<p:commandButton id="salvarAdv" value="Salvar" action="#{advogadoBean.salvar}" update="notifyAddAdvogado addAdvogado :gerAdv"/>			
+			
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+
+	<p:dialog id="DlgGerAdvCase" resizable="false" widgetVar="gerAdvCaseDlg" modal="true" appendToBody="true" 
+			  header="Gerênciar Advogados" draggable="false">
+	<p:ajax event="close" update="DlgGerAdvCase" listener="#{advogadoCasoBean.clean}" />
+		<p:panel>	  
+		<h:form id="addAdvCase">
+		<div>
+			<div style="float: left; margin-right: 10px;">
+				<p:autoComplete id="advCaseDD" dropdown="true" value="#{advogadoCasoBean.advogado}"   
+                    					completeMethod="#{advogadoCasoBean.completeAdv}" converter="advogadoConverter"
+                    					var="adv" itemValue="#{adv}" itemLabel="#{adv.nome}" required="false"
+                    					requiredMessage="Você não definiu nada" />
+                <p:message id="AdvMessage" for="advCaseDD" display="text" />
+                
+                <p:commandButton id="salvarAdvCase" value="Salvar" action="#{advogadoCasoBean.salvar}" 
+											 update=":notifyGerCaso addAdvCase ListarAdvCaso :gerCaso" style="float:right;"/>
+                     		
+			</div>
+		
+			<div style="float: right;">
+				<p:dataTable id="ListarAdvCaso" value="#{advogadoCasoBean.listar}" var="adv" 
+				styleClass="myTable" emptyMessage="Não Possui Advogados" 
+				scrollable="true" scrollHeight="100" style="width: 360px; overflow-x: hidden;">
+					
+					<p:column headerText="Nome" style="width:200px; text-align: center;">
+						<h:outputLabel value="#{adv.nome}" />
+					</p:column>
+					
+					<p:column headerText="Excluir" style="text-align: center;">
+						<p:commandLink action="#{advogadoCasoBean.excluir}"  update=":addAdvCase :gerCaso">
+							<h:graphicImage library="imagens" name="icones/excluir.png" style="border: 0" />
+							<f:setPropertyActionListener target="#{advogadoCasoBean.advogado}" value="#{adv}" />
+						</p:commandLink>
+					</p:column>
+				
+				</p:dataTable>		
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		
+		</h:form>
+		<div style="clear: both"></div>
+		</p:panel> 
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

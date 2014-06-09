@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+
+	<p:dialog id="DlgGerMovCase" resizable="false" widgetVar="gerMovCaseDlg" modal="true" appendToBody="true" 
+			  header="Gerênciar Movimentos" draggable="false">
+	<p:ajax event="close" update="DlgGerMovCase" listener="#{movimentoCasoBean.clean}" />
+		<p:panel>	  
+		<h:form id="addMovCase">
+		<div>
+			<div style="float: left; margin-right: 10px;">
+				<p:autoComplete id="movCaseDD" dropdown="true" value="#{movimentoCasoBean.mov.tipoMovimento}"   
+                    					completeMethod="#{movimentoCasoBean.completeMov}" converter="tipoMovimentoConverter"
+                    					var="mov" itemValue="#{mov}" itemLabel="#{mov.descricao}" required="true"
+                    					requiredMessage="Você não definiu nada" />
+                <p:message id="MovMessage" for="movCaseDD" display="text" />
+                
+                <p:commandButton id="salvarMovCase" value="Salvar" action="#{movimentoCasoBean.salvar}" 
+											 update=":notifyGerCaso addMovCase ListarMovCaso :gerCaso" style="float:right;"/>
+                     		
+			</div>
+			
+			<div style="float: right;">
+				<p:dataTable id="ListarMovCaso" value="#{movimentoCasoBean.listar}" var="mov" 
+				styleClass="myTable" emptyMessage="Não Possui Movimentos" filterEvent="enter" 
+				scrollable="true" scrollHeight="100" style="width: 360px; overflow-x: hidden;">
+					
+					<p:column headerText="Movimentos" style="width:159px;">
+						<h:outputLabel value="#{mov.tipoMovimento.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Data">
+						<h:outputLabel value="#{mov.dataModificacao}" />
+					</p:column>
+				
+				</p:dataTable>		
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		
+		</h:form>
+		<div style="clear: both"></div>
+		</p:panel> 
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>
