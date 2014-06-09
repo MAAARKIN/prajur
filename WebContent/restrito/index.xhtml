@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">	
+		
+<h:body>
+
+	<ui:composition template="/templates/template.xhtml">
+    
+		<ui:define name="content">
+		<ui:include src="dialogs/addUsuario.xhtml" />
+		<ui:include src="dialogs/gerenciarEstagiario.xhtml" />
+		<ui:include src="dialogs/gerenciarAdvogado.xhtml" />
+		<ui:include src="dialogs/gerenciarAssistido.xhtml" />
+		<ui:include src="dialogs/gerenciarProfessor.xhtml" />
+		<ui:include src="dialogs/gerenciarCaso.xhtml" />
+		
+			<p:layout style="min-width:400px;min-height:360px;" id="layout">  			  
+			    <p:layoutUnit position="center">  
+			    <div class="content">
+			        <h:form id="buttons">
+			        <h:panelGrid columns="6">
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="userDlg.show()" action="#{usuarioBean.clean}">
+								<h:graphicImage library="imagens" name="icones/addUser.png" title="Adicionar Usuário"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Adicionar Usuário" />				        
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="gerEstDlg.show()" action="#{estagiarioBean.clean}">
+								<h:graphicImage library="imagens" name="icones/addEstagiario.png" title="Cadastrar Estagiário"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Gerenciar Estagiário" />				        
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="gerAdvDlg.show()" action="#{advogadoBean.clean}">
+								<h:graphicImage library="imagens" name="icones/addAdvogado.png" title="Cadastrar Advogado"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Gerenciar Advogado" />				        
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="gerAssistidoDlg.show()">
+								<h:graphicImage library="imagens" name="icones/gerenciarAssistido.png" title="Gerenciar Assistido"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Gerenciar Assistido" />				        
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="gerProfDlg.show()" action="#{professorBean.clean}">
+								<h:graphicImage library="imagens" name="icones/addProfessor.png" title="Gerenciar Professor"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Gerenciar Professor" />				        
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" style="text-align:center; margin-right: 10px;">
+				        	<p:commandLink onclick="gerCasoDlg.show()">
+								<h:graphicImage library="imagens" name="icones/gerCaso.png" title="Gerenciar Caso"/>
+							</p:commandLink>
+							
+							<h:outputLabel value="Gerenciar Caso" />				        
+			        	</h:panelGrid>
+
+			        </h:panelGrid>	
+			        </h:form>
+			         
+			    </div>   
+			    </p:layoutUnit>  
+			</p:layout>
+		</ui:define>
+	
+	</ui:composition>
+</h:body>
+</html>

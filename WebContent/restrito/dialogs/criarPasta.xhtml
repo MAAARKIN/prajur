@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgCriarPasta" resizable="false" position="center" widgetVar="criarPastaDlg" 
+	modal="true" appendToBody="true" header="Criar nova pasta" draggable="false" >
+	<p:ajax event="close" update="DlgCriarPasta" listener="#{pastaBean.clean}"/>
+		
+			<p:growl id="notifyCriarPasta"/>
+			
+			<p:tabView id="tabView" >  
+					  
+			    <p:tab id="tab2" title="Triagem"  >
+			    <div id="superior" >  
+			    	<h:panelGrid columns="1">
+			        	
+			        	<h:form id="documentos">
+				        <h:inputHidden value="#{pastaBean.documento.codigo}" />
+				        	<div style="float: left;">
+				        		<h:panelGrid columns="1">
+				        			<h:outputLabel value="Documentos solicitados para o atendimento:" />
+				        			<h:panelGroup>						     
+						        		<h:selectOneMenu id="docDesc" value="#{pastaBean.documento.descricao}" style="margin-right: 10px;">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItem itemLabel="CPF" itemValue="CPF"/>
+											<f:selectItem itemLabel="RG" itemValue="RG"/>
+											<f:selectItem itemLabel="Certidão de Nascimento" itemValue="Certidão de Nascimento"/>
+											<f:selectItem itemLabel="Certidão de Casamento" itemValue="Certidão de Casamento"/>																
+										</h:selectOneMenu>
+						        		<p:commandButton value="Adicionar" icon="ui-icon-check" actionListener="#{pastaBean.addDocumento}" update="documentos ListarDocumentos :notifyCriarPasta" style="margin:0"/>
+				        			</h:panelGroup>
+				        		</h:panelGrid>
+				        	</div>
+				        	<div style="float: right;">
+							<p:dataTable id="ListarDocumentos" value="#{pastaBean.documentos}" styleClass="myTable"
+								var="documento" cellpadding="5" emptyMessage="Não Possui Documentos" scrollable="true"
+								scrollHeight="80">
+
+								<p:column headerText="Documentos" style="width:200px;">
+									<h:outputLabel value="#{documento.descricao}" />
+								</p:column>
+
+							</p:dataTable>
+							</div>
+
+						</h:form>
+						
+						<div style="clear: both;"></div>
+			 			<h:form id="triagem">
+			 				     
+			        	<h:panelGrid columns="3">			        	
+			        	<h:panelGrid columns="1">
+			        		<h:outputLabel value="Natureza da Ação:" />
+				        	<p:inputText value="#{pastaBean.triagem.natureza}" size="20" />
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" id="enc" >
+			        		<h:outputLabel value="*Encaminhamento:" />
+			        		<h:selectOneMenu id="encaminhamento" value="#{pastaBean.triagem.encaminhamento}" required="true" requiredMessage="*Encaminhamento Obrigatório" >
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atendimento PRAJUR" itemValue="Atendimento"/>
+								<f:selectItem itemLabel="Audiência" itemValue="Audiência"/>
+								<f:selectItem itemLabel="Prazo Decorrendo" itemValue="Prazo Decorrendo"/>
+								<f:selectItem itemLabel="Outros" itemValue="Outros"/>																
+							</h:selectOneMenu>
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1">
+			        		<h:outputLabel value="Informações Complementares:" />
+			        		<h:selectOneMenu id="infoComplementar" value="#{pastaBean.triagem.infoComplementar}">
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItem itemLabel="Envolve situação de violência" itemValue="Envolve situação de violência"/>
+								<f:selectItem itemLabel="Necessita de medida emergencial" itemValue="Necessita de medida emergencial"/>																					
+							</h:selectOneMenu>
+			        	</h:panelGrid>
+			        	</h:panelGrid>
+
+						<div id="scrollPanel" style="overflow: auto; height:250px; width:700px; border: 2px solid #DDD; position: relative;">
+							<h:panelGrid columns="2">
+			        			<h:outputLabel value="Como soube do PRAJUR:" />
+				        		<p:inputText value="#{pastaBean.triagem.comoSoube}" size="40"/>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="3">
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Estado Civil:" />
+				        		<h:selectOneMenu id="estadoCivil" value="#{pastaBean.triagem.estadoCivil}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)"/>
+									<f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)"/>
+									<f:selectItem itemLabel="União Estável" itemValue="União Estável"/>	
+									<f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)"/>	
+									<f:selectItem itemLabel="Separado(a)" itemValue="Separado(a)"/>
+									<f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)"/>																					
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        	
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Escolaridade:" />
+				        		<h:selectOneMenu id="escolaridade" value="#{pastaBean.triagem.escolaridade}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Analfabeto" itemValue="Analfabeto"/>
+									<f:selectItem itemLabel="Analfabeto Funcional" itemValue="Analfabeto Funcional"/>
+									<f:selectItem itemLabel="Ensino Fundamental Incompleto" itemValue="Ensino Fundamental Incompleto"/>	
+									<f:selectItem itemLabel="Ensino Fundamental Completo" itemValue="Ensino Fundamental Completo"/>	
+									<f:selectItem itemLabel="Ensino Médio Incompleto" itemValue="Ensino Médio Incompleto"/>
+									<f:selectItem itemLabel="Ensino Médio Completo" itemValue="Ensino Médio Completo"/>
+									<f:selectItem itemLabel="Ensino Superior Incompleto" itemValue="Ensino Superior Incompleto"/>	
+									<f:selectItem itemLabel="Ensino Superior Completo" itemValue="Ensino Superior Completo"/>
+									<f:selectItem itemLabel="Pós-Graduação" itemValue="Pós-Graduação"/>																							
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Renda Fixa:" />
+				        		<h:selectOneMenu id="rendaFixa" value="#{pastaBean.triagem.rendaFixa}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Até um salário mínimo" itemValue="Até um salário mínimo"/>
+									<f:selectItem itemLabel="Entre um e dois salários mínimos" itemValue="Entre um e dois salários mínimos"/>
+									<f:selectItem itemLabel="Entre dois e três salários mínimos" itemValue="Entre dois e três salários mínimos"/>	
+									<f:selectItem itemLabel="Entre três e cinco salários mínimos" itemValue="Entre três e cinco salários mínimos"/>	
+									<f:selectItem itemLabel="Acima de cinco salários mínimos" itemValue="Acima de cinco salários mínimos"/>																																
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="2">		
+			        		
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Renda Complementar:" />
+				        		<h:selectOneMenu id="rendaComp" value="#{pastaBean.triagem.rendaComplementar}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Bolsa Família" itemValue="Bolsa Família"/>
+									<f:selectItem itemLabel="Ajuda de Terceiros" itemValue="Ajuda de Terceiros"/>
+									<f:selectItem itemLabel="Pensão Alimentícia" itemValue="Pensão Alimentícia"/>	
+									<f:selectItem itemLabel="Pensão por Morte" itemValue="Pensão por Morte"/>	
+									<f:selectItem itemLabel="Aluguel" itemValue="Aluguel"/>
+									<f:selectItem itemLabel="Artesanato" itemValue="Artesanato"/>
+									<f:selectItem itemLabel="BPC - Beneficio de Prestação Continuada" itemValue="BPC - Beneficio de Prestação Continuada"/>
+									<f:selectItem itemLabel="Não Possui" itemValue="Não Possui"/>																																			
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGroup id="dep">			        		
+			        		<h:panelGrid columns="2">
+			        		<h:panelGrid columns="1">
+					        	<h:outputLabel value="Dependentes:" />
+					        	<h:selectOneMenu id="dependentes" value="#{pastaBean.triagem.dependentes}" immediate="true">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Sim" itemValue="Sim"/>
+									<f:selectItem itemLabel="Não" itemValue="Não"/>
+									<p:ajax update="dep numDep" />																					
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+			        		
+			        		<h:panelGrid id="numDep" columns="1" rendered="#{pastaBean.triagem.dependentes == 'Sim'}">
+				        		<h:outputLabel value="Numero de Dependentes:" />
+				        		<p:inputText value="#{pastaBean.triagem.numDependentes}" />
+				        	</h:panelGrid>
+				        	</h:panelGrid>
+				        	</h:panelGroup>
+				        	
+			        		</h:panelGrid>			        
+			        		
+			        		<h:panelGrid columns="4">
+			        		<h:panelGrid columns="1">
+					        	<h:outputLabel value="Localidade da residência:" />
+					        	<h:selectOneMenu value="#{pastaBean.triagem.localidade}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Rural" itemValue="Rural"/>
+									<f:selectItem itemLabel="Urbano" itemValue="Urbano"/>																			
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Tipo do imóvel:" />
+					        	<h:selectOneMenu value="#{pastaBean.triagem.tipoImovel}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Casa" itemValue="Casa"/>
+									<f:selectItem itemLabel="Apartamento" itemValue="Apartamento"/>
+									<f:selectItem itemLabel="Barracão" itemValue="Barracão"/>	
+									<f:selectItem itemLabel="Sítio ou Chácara" itemValue="Sítio ou Chácara"/>	
+									<f:selectItem itemLabel="Fazenda" itemValue="Fazenda"/>																													
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Situação do imóvel:" />
+					        	<h:selectOneMenu value="#{pastaBean.triagem.situacaoImovel}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Alugado" itemValue="Alugado"/>
+									<f:selectItem itemLabel="Próprio, quitado" itemValue="Próprio, quitado"/>
+									<f:selectItem itemLabel="Próprio por herença" itemValue="Próprio por herença"/>	
+									<f:selectItem itemLabel="Financiado" itemValue="Financiado"/>	
+									<f:selectItem itemLabel="Cedido" itemValue="Cedido"/>																													
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Religião:" />
+					        	<h:selectOneMenu value="#{pastaBean.triagem.religiao}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Adventista" itemValue="Adventista"/>
+									<f:selectItem itemLabel="Candomblé" itemValue="Candomblé"/>
+									<f:selectItem itemLabel="Católica" itemValue="Católica"/>	
+									<f:selectItem itemLabel="Espírita" itemValue="Espírita"/>	
+									<f:selectItem itemLabel="Evangélica" itemValue="Evangélica"/>
+									<f:selectItem itemLabel="Judaica" itemValue="Judaica"/>
+									<f:selectItem itemLabel="Umbanda" itemValue="Umbanda"/>
+									<f:selectItem itemLabel="Outra" itemValue="Outra"/>	
+									<f:selectItem itemLabel="Não Informada" itemValue="Não Informada"/>																																
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGroup id="ness">
+				        	<h:panelGrid columns="4">
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Necessidades Especiais:" />
+					        	<h:selectOneMenu value="#{pastaBean.triagem.necessidadeEspecial}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Sim" itemValue="Sim"/>
+									<f:selectItem itemLabel="Não" itemValue="Não"/>
+									<p:ajax update="ness necessEsp grauParent despMens" />																																							
+								</h:selectOneMenu>
+				        	</h:panelGrid>			        
+			        		
+			        		<h:panelGrid id="necessEsp" columns="1" rendered="#{pastaBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Especifique:" />
+				        		<p:inputText value="#{pastaBean.triagem.especifique}" />
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid id="grauParent" columns="1" rendered="#{pastaBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Grau de Parentesco:" />
+				        		<p:inputText value="#{pastaBean.triagem.grauParentesco}" />
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid id="despMens" columns="1" rendered="#{pastaBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Despesas Mensais:" />
+				        		<p:inputText value="#{pastaBean.triagem.dispesaMensal}" />
+				        	</h:panelGrid>  
+			        		</h:panelGrid>
+			        		</h:panelGroup>
+			        		<h:panelGrid columns="1">
+			        			<h:outputText value="Políticas Públicas: " />  
+							        <p:selectManyCheckbox value="#{pastaBean.politicas}" layout="pageDirection" >  
+							            <f:selectItem itemLabel="Rede de Esgoto" itemValue="Rede de Esgoto" />  
+							            <f:selectItem itemLabel="Água tratada" itemValue="Água tratada" />  
+							            <f:selectItem itemLabel="Iluminação Pública" itemValue="Iluminação Pública" />
+							            <f:selectItem itemLabel="Lixo Recolhido" itemValue="Lixo Recolhido" />
+							            <f:selectItem itemLabel="Ruas Pavimentadas" itemValue="Ruas Pavimentadas" />  
+							            <f:selectItem itemLabel="Atendimento de saúde básica" itemValue="Atendimento de saúde básica" />  
+							            <f:selectItem itemLabel="Serviços de Educação" itemValue="Serviços de Educação" />  
+							            <f:selectItem itemLabel="Transporte Público" itemValue="Transporte Público" />      
+							        </p:selectManyCheckbox> 
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="1" style="margin-bottom: 10px;">
+				        		<h:outputText value="Resultado: " />  
+						        <p:selectOneRadio id="result" value="#{pastaBean.triagem.resultado}">  
+						            <f:selectItem itemLabel="Procedente" itemValue="Procedente" />  
+						            <f:selectItem itemLabel="Improcedente" itemValue="Improcedente" />						          
+						        </p:selectOneRadio>
+					        </h:panelGrid>
+					        
+					        <h:panelGrid columns="1" style="margin-bottom: 10px;">
+				        		<h:outputText value="Observação: " />
+				        		<p:inputTextarea value="#{pastaBean.triagem.observacao}" style="width: 300px;" />  
+						        
+					        </h:panelGrid>
+					        <div style="float: right; margin-bottom: 10px; margin-right: 10px;">
+								<p:commandButton value="Confirmar" action="#{pastaBean.confirmTriagem}" update=":notifyCriarPasta triagem" />	
+					        </div>
+						</div>
+					</h:form>
+					</h:panelGrid>
+					</div>
+			    </p:tab>  
+			    
+<!-- 			  Qualificação do assistido -->
+
+			    <p:tab id="tab3" title="Qualificações do Assistido">
+			    	<div style="float: left;">			    	
+			    		<h:form id="qualiAssistidos">
+			    					
+							<h:inputHidden value="#{pastaBean.qualiAssistido.codigo}" />
+							<h:panelGrid id="gridQuali">
+							
+								<h:panelGrid>
+									<h:outputText value="*Tipo de Pessoa: " />  
+							        <p:selectOneRadio id="options" value="#{pastaBean.qualiAssistido.perfil.tipoPessoa}" immediate="true" required="true" requiredMessage="Escolha o tipo de Pessoa">  
+							            <f:selectItem itemLabel="Física" itemValue="Física" />  
+							            <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+							            <p:ajax update="tipoP grupopSexo" />							            
+							        </p:selectOneRadio> 
+								</h:panelGrid>
+								
+								<h:panelGrid columns="2">
+									<h:panelGroup id="grupopNome">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Nome:" for="nome" />
+										<p:inputText id="nome" value="#{pastaBean.qualiAssistido.perfil.nome}" size="70" required="true" requiredMessage="Nome do Qualificado é obrigatório"/>
+									</h:panelGrid>
+									</h:panelGroup>
+									
+									<h:panelGroup id="grupopSexo">
+									<h:panelGrid columns="1" rendered="#{pastaBean.qualiAssistido.perfil.tipoPessoa == 'Física'}">
+										<h:outputLabel value="*Sexo:"/>
+										<h:selectOneMenu id="Sexo" value="#{pastaBean.qualiAssistido.perfil.sexo}" required="true" requiredMessage="*Campo Sexo Obrigatorio" >
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+											<f:selectItem itemLabel="Feminino" itemValue="Feminino"/>															
+										</h:selectOneMenu>
+									</h:panelGrid>
+									</h:panelGroup>
+								</h:panelGrid>
+								
+								<h:panelGrid columns="2">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Profissao:" for="profissao" />
+										<p:inputText id="profissao" value="#{pastaBean.qualiAssistido.perfil.profissao}" size="30"/>
+									</h:panelGrid>
+									
+									<h:panelGroup id="tipoP">
+									<h:panelGroup id="fisica" rendered="#{pastaBean.qualiAssistido.perfil.tipoPessoa == 'Física'}">
+										<h:panelGrid columns="2">
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Cpf:" for="cpf" />
+												<p:inputMask id="cpf" value="#{pastaBean.qualiAssistido.perfil.cpf}" mask="999.999.999-99" size="20" required="true"/>
+											</h:panelGrid>
+											
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Rg:" for="rg" />
+												<p:inputText id="rg" value="#{pastaBean.qualiAssistido.perfil.rg}" size="25"/>
+											</h:panelGrid>
+										</h:panelGrid>
+									</h:panelGroup>
+									
+									<h:panelGroup id="juridica" rendered="#{pastaBean.qualiAssistido.perfil.tipoPessoa == 'Jurídica'}">
+										<h:panelGrid columns="1">
+											<h:outputLabel value="*Cnpj:" for="cnpj" />
+											<p:inputMask id="cnpj" value="#{pastaBean.qualiAssistido.perfil.cnpj}" mask="99.999.999/9999-99" size="20"/>
+										</h:panelGrid>
+									</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGrid>
+								
+								
+								<h:panelGrid columns="2">
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Endereço:" />
+										<p:inputText value="#{pastaBean.qualiAssistido.endereco.logradouro}" size="40" />
+									</h:panelGrid>
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Bairro:" />
+										<p:inputText value="#{pastaBean.qualiAssistido.endereco.bairro}" size="40" />
+									</h:panelGrid>
+								</h:panelGrid>
+								
+								<h:panelGrid columns="4">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Cep:" />
+										<p:inputMask id="cep" value="#{pastaBean.qualiAssistido.endereco.cep}" mask="99999-999" size="20" />										
+									</h:panelGrid>	
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*UF:"/>
+										<h:selectOneMenu id="estado" value="#{pastaBean.qualiAssistido.endereco.cidade.estado}" converter="estadoConverter" required="true" requiredMessage="Estado Obrigatorio" style="width: 50px;">
+											<f:selectItems value="#{pastaBean.selecionarEstadoQuali}" />
+											<p:ajax update="cidade" listener="#{pastaBean.carregarCidadesQuali}" />
+										</h:selectOneMenu>
+									</h:panelGrid>
+										
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Cidade:"/>
+										<h:selectOneMenu id="cidade" value="#{pastaBean.qualiAssistido.endereco.cidade}" converter="cidadeConverter" required="true" requiredMessage="Cidade Obrigatorio" >
+											<f:selectItem itemLabel="Selecione a cidade"/>
+											<f:selectItems value="#{pastaBean.selecionarCidadeQuali}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade}" />														
+										</h:selectOneMenu>
+									</h:panelGrid>
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Naturalidade:" />
+										<p:inputText value="#{pastaBean.qualiAssistido.perfil.naturalidade}" size="25" />
+									</h:panelGrid>	
+								</h:panelGrid>
+									
+							</h:panelGrid>
+							
+							<p:commandButton value="Adicionar" icon="ui-icon-check" actionListener="#{pastaBean.addQualiAssistido}" update=":tabView:listarQuali :notifyCriarPasta qualiAssistidos gridQuali" style="margin:0" />  		
+			    		</h:form> 
+				    </div>
+				    
+				    <div style="float: right;">
+				    	<h:form id="listarQuali">
+				    		<p:dataTable id="ListarQualiAssist" value="#{pastaBean.quali}" styleClass="myTable"
+								var="quali" cellpadding="5" emptyMessage="Não Possui Qualificados" scrollable="true"
+								scrollHeight="80">
+
+								<p:column headerText="Nome" style="width:200px;">
+									<h:outputLabel value="#{quali.perfil.nome}" />
+								</p:column>
+
+							</p:dataTable>
+				    	</h:form>
+							
+					</div>
+			    	<div style="clear: both;"></div>
+			    </p:tab>  
+			  
+<!-- 			  Parte Contraria -->
+			  
+			  	<p:tab id="tab4" title="Parte Contraria">
+			  	
+			  		<div style="float: left;">			    	
+			    		<h:form id="parteContraria">
+			    					
+							<h:inputHidden value="#{pastaBean.parteContraria.codigo}" />
+							<h:panelGrid id="gridCont">
+								<h:panelGrid>
+									<h:outputText value="*Tipo de Pessoa: " />  
+							        <p:selectOneRadio id="options" value="#{pastaBean.parteContraria.perfil.tipoPessoa}" immediate="true" required="true" requiredMessage="Escolha o tipo de Pessoa" >  
+							            <f:selectItem itemLabel="Física" itemValue="Física" />  
+							            <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+							            <p:ajax update="tipoPC grupoSexo" />							            
+							        </p:selectOneRadio> 
+								</h:panelGrid>
+							
+								<h:panelGrid columns="2" id="group">
+								
+									<h:panelGroup id="grupoNome">
+										<h:panelGrid columns="1">
+											<h:outputLabel value="*Nome:" for="nome" />
+											<p:inputText id="nome" value="#{pastaBean.parteContraria.perfil.nome}" size="70" required="true" requiredMessage="Nome do Qualificado é obrigatório"/>
+										</h:panelGrid>
+									</h:panelGroup>
+									
+									<h:panelGroup id="grupoSexo">
+									<h:panelGrid columns="1" rendered="#{pastaBean.parteContraria.perfil.tipoPessoa == 'Física'}">
+										<h:outputLabel value="*Sexo:"/>
+										<h:selectOneMenu id="Sexo" value="#{pastaBean.parteContraria.perfil.sexo}" required="true" requiredMessage="*Campo Sexo Obrigatorio" >
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+											<f:selectItem itemLabel="Feminino" itemValue="Feminino"/>															
+										</h:selectOneMenu>
+									</h:panelGrid>
+									</h:panelGroup>
+								
+								</h:panelGrid>
+								
+								<h:panelGrid columns="3">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Profissao:" for="profissao" />
+										<p:inputText id="profissao" value="#{pastaBean.parteContraria.perfil.profissao}" size="30"/>
+									</h:panelGrid>
+									
+									<h:panelGroup id="tipoPC">
+									<h:panelGroup id="fisica" rendered="#{pastaBean.parteContraria.perfil.tipoPessoa == 'Física'}">
+										<h:panelGrid columns="2">
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Cpf:" for="cpf" />
+												<p:inputMask id="cpf" value="#{pastaBean.parteContraria.perfil.cpf}" mask="999.999.999-99" size="20" required="true"/>
+											</h:panelGrid>
+											
+											<h:panelGrid columns="1">
+												<h:outputLabel value="*Rg:" for="rg" />
+												<p:inputText id="rg" value="#{pastaBean.parteContraria.perfil.rg}" size="25"/>
+											</h:panelGrid>
+										</h:panelGrid>
+									</h:panelGroup>
+									
+									<h:panelGroup id="juridica" rendered="#{pastaBean.parteContraria.perfil.tipoPessoa == 'Jurídica'}">
+										<h:panelGrid columns="1">
+											<h:outputLabel value="*Cnpj:" for="cnpj" />
+											<p:inputMask id="cnpj" value="#{pastaBean.parteContraria.perfil.cnpj}" mask="99.999.999/9999-99" size="20"/>
+										</h:panelGrid>
+									</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGrid>
+								
+								<h:panelGrid columns="2">
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Endereço:" />
+										<p:inputText value="#{pastaBean.parteContraria.endereco.logradouro}" size="40" />
+									</h:panelGrid>
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Bairro:" />
+										<p:inputText value="#{pastaBean.parteContraria.endereco.bairro}" size="40" />
+									</h:panelGrid>
+								</h:panelGrid>
+								
+								<h:panelGrid columns="4">
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Cep:" />
+										<p:inputMask id="cep" value="#{pastaBean.parteContraria.endereco.cep}" mask="99999-999" size="20" />
+									</h:panelGrid>	
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*UF:"/>
+										<h:selectOneMenu id="estado" value="#{pastaBean.parteContraria.endereco.cidade.estado}" converter="estadoConverter" required="true" requiredMessage="Estado Obrigatorio" style="width: 50px;">
+											<f:selectItems value="#{pastaBean.selecionarEstadoCont}" />
+											<p:ajax update="cidade" listener="#{pastaBean.carregarCidadesCont}" />
+										</h:selectOneMenu>
+									</h:panelGrid>
+										
+									<h:panelGrid columns="1">
+										<h:outputLabel value="*Cidade:"/>
+										<h:selectOneMenu id="cidade" value="#{pastaBean.parteContraria.endereco.cidade}" converter="cidadeConverter" required="true" requiredMessage="Cidade Obrigatorio" >
+											<f:selectItem itemLabel="Selecione a cidade"/>
+											<f:selectItems value="#{pastaBean.selecionarCidadeCont}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade}" />														
+										</h:selectOneMenu>
+									</h:panelGrid>
+									
+									<h:panelGrid columns="1">
+										<h:outputLabel value="Naturalidade:" />
+										<p:inputText value="#{pastaBean.parteContraria.perfil.naturalidade}" size="25" />
+									</h:panelGrid>	
+								</h:panelGrid>
+									
+							</h:panelGrid>
+							
+							<p:commandButton value="Adicionar" icon="ui-icon-check" actionListener="#{pastaBean.addParteContraria}" update=":tabView:listarCont :notifyCriarPasta parteContraria gridCont" style="margin:0" />  		
+			    		</h:form> 
+				    </div>
+				    
+				    <div style="float: right;">
+				    	<h:form id="listarCont">
+				    		<p:dataTable id="ListarCont" value="#{pastaBean.contrarios}" styleClass="myTable"
+								var="cont" cellpadding="5" emptyMessage="Não Possui Parte Contraria" scrollable="true"
+								scrollHeight="80">
+
+								<p:column headerText="Nome" style="width:200px;">
+									<h:outputLabel value="#{cont.perfil.nome}" />
+								</p:column>
+
+							</p:dataTable>
+				    	</h:form>
+							
+					</div>
+			    	<div style="clear: both;"></div>	  
+			        
+			    </p:tab>
+			</p:tabView>
+			<h:form id="salvarPasta">
+				<p:commandButton value="Salvar" icon="ui-icon-check" action="#{pastaBean.salvar}" update=":gerPasta :notifyCriarPasta" style="margin-top: 10px; margin-bottom: 0px;"  />
+			</h:form>  
+			
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

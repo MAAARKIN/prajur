@@ -1,0 +1,141 @@
+html {
+	height: 100%;
+	background-color: white;
+	padding: 0;
+/* 	background: #e6e6e6 url("../resources/imagens/prajurbg2.png") no-repeat top; */
+}
+
+body {
+	margin: 0 !important;
+	height: 100%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+td, th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+#tudo { min-height: 100%; position: relative; width: 100%; min-width: 1000px; margin: 0 auto; }
+#topo { /*border-bottom: solid #000000 1px;*/ height: 100%; /*margin-bottom: 10px;*/ /*padding: 10px;*/ clear: both;  margin-bottom: 10px; background: #e6e6e6 repeat }
+#topo .conteudo { /*border: solid #000000 1px;*/ height: 100%; clear: both; width: 1000px; margin: 0 auto; margin-bottom: 10px !important; background: #e6e6e6 }
+#topo .conteudo .logo { /*border: solid #000000 1px;*/ height: 150px; margin: 10px; width: 400px; float: left;}
+#topo .conteudo .menu { float: right; /*border: solid #000000 1px;*/ width: 550px; margin: 10px; height: 40px; margin-top: 120px; font-size: 12px!important; }
+#topo .conteudo .empurra { /*border: solid #000000 1px;*/ /*height: 60px;*/ margin: 10px; clear: both;}
+#topo .header-bottom { min-width:982px; width: 100%; height: 1px; background-color: #bbbbbd; border-bottom: 1.5px solid #bbbbbd;}
+#conteudo { /*border: solid #000000 1px;*/ height: auto !important; }
+#conteudo .conteudo-main { /*border: solid #000000 1px;*/ margin: 10px; width: 1000px; margin: 0 auto; background: white; min-height: 350px;}
+#conteudo .conteudo-main .content { /*border: solid #000000 1px;*/ margin: 10px; }
+#rodape { width:100%; height: 60px; position: absolute; bottom: 0; background: #BBBABA; /*border: solid #000000 1px;*/}
+#rodape .copyright { margin-top: 20px !important; /*border: solid #000000 1px;*/ height: 40px; width: 1000px; margin: 0 auto; }
+#rodape .copyright .content { margin: 10px; font-style:italic; }
+#clear { clear: both; margin-bottom: 50px;}
+#login { border: solid #000000 1px; width: 40px; height: 40px; right: 0; float: right; margin-right: 10px; }
+.scroll { overflow: auto; height:250px; width:700px; }
+
+/* primefaces */
+
+.ui-menu.ui-menubar {
+	background-image: -moz-linear-gradient(top, white, #F2F2F2);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white),
+		to(#F2F2F2) );
+	background-image: -webkit-linear-gradient(top, white, #F2F2F2);
+	background-image: -o-linear-gradient(top, white, #F2F2F2);
+	background-image: linear-gradient(to bottom, white, #F2F2F2);
+	background-repeat: repeat-x;
+}
+
+.ui-menu.ui-menubar a {
+	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;	
+	color: inherit;
+}
+
+/* jsf */
+
+.buttons input {
+	background: white;
+    margin: 5px;
+    padding: 5px 5px 5px 20px; /* 20px makes room for your background image */
+    border: none;
+}
+
+.buttons {
+    background: transparent;
+    border: 1.5px solid #11629f;
+    border-radius: 5px;
+    color: #11629f;
+    cursor: pointer;
+	display: inline-block;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 13px;
+	margin: 0;
+	padding: 1px;
+	white-space: nowrap;
+	}
+	
+.ui-panelgrid.pastas td {
+	border-width: 1px;
+	border-style: none !important;
+	border-color: inherit;
+	padding: 4px 10px;
+}
+
+.ui-datatable-scrollable.myTable .ui-datatable-scrollable-header-box, .ui-datatable-scrollable .ui-datatable-scrollable-footer-box {
+	padding-right: 0px !important;
+}
+
+.ui-datatable-scrollable .ui-datatable-scrollable-body {
+	overflow-x: hidden; 
+}
+
+.ui-wizard.myWizard {
+	width: 640px;
+	padding: 10px;
+}
+
+.ui-wizard.myWizard .ui-wizard-step-title {
+	font-size: 14px;
+	margin: 0 3px 0 0;
+	padding: 0.4em;
+	float: left;
+}
+
+.ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal {
+display: inline;
+border: 1px solid;
+margin: 0px 5px;
+padding: 2px 5px;
+}
+
+.ui-datalist.myList tr  {
+    border: none;
+}
+
+.ui-datalist.myList td  {
+    border: none;
+}
+
+.ui-datatable-scrollable.myTable2 .ui-datatable-scrollable-header-box, .ui-datatable-scrollable .ui-datatable-scrollable-footer-box {
+	padding-right: 0px !important;
+}
+
+.myPanel tbody, .myPanel tr, .myPanel td {
+	border: none !important;
+}
+
+.myPanel .ui-widget-content {
+	border: none;
+}
+
+.ui-datatable.subTable th {
+	display:none;
+}
+
+
+
+

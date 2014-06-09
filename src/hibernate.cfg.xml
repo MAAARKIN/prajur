@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Configuração da conexão com o banco MySQL e dialeto -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/prajur</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<!-- Usando as configurações do C3PO para pool de conexões -->
+
+		<property name="c3po.min_size">5</property>
+		<property name="c3po.max_size">20</property>
+		<property name="c3po.timeout">300</property>
+		<property name="c3po.max_statements">50</property>
+		<property name="c3po.idle_test_period">3000</property>
+
+		<!-- Configurações de debug -->
+
+		<property name="show_sql">false</property>
+		<property name="format_sql">true</property>
+		<property name="generate_statistics">true</property>
+		<property name="use_sql_comments">true</property>
+
+
+		<!-- Mapeando classes -->
+
+		<mapping class="br.com.prajur.modelo.Usuario" />
+		<mapping class="br.com.prajur.modelo.Contato" />
+		<mapping class="br.com.prajur.modelo.Endereco" />
+		<mapping class="br.com.prajur.modelo.Cidade" />
+		<mapping class="br.com.prajur.modelo.Estado" />
+		<mapping class="br.com.prajur.modelo.Estagiario" />
+		<mapping class="br.com.prajur.modelo.Movimento" />
+		<mapping class="br.com.prajur.modelo.Procedimento" />
+		<mapping class="br.com.prajur.modelo.TipoProcedimento" />
+		<mapping class="br.com.prajur.modelo.Perfil" />
+		<mapping class="br.com.prajur.modelo.TipoMovimento" />
+		<mapping class="br.com.prajur.modelo.Advogado" />
+		<mapping class="br.com.prajur.modelo.Professor" />
+		<mapping class="br.com.prajur.modelo.Assistido" />
+		<mapping class="br.com.prajur.modelo.Pasta" />
+		<mapping class="br.com.prajur.modelo.QualiAssistido" />
+		<mapping class="br.com.prajur.modelo.ParteContraria" />
+		<mapping class="br.com.prajur.modelo.Caso" />
+		<mapping class="br.com.prajur.modelo.Triagem" />
+		<mapping class="br.com.prajur.modelo.Documento" />
+		
+
+
+	</session-factory>
+</hibernate-configuration>

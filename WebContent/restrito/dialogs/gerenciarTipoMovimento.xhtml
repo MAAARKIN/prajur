@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<ui:include src="addTipoMovimento.xhtml" />
+		<p:dialog id="DlgGerTipoMov" resizable="false" widgetVar="gerTipMovDlg"
+			modal="true" appendToBody="true" header="Gerenciar Tipos de Movimentações"
+			draggable="false">
+			
+			<p:ajax event="close" update="DlgGerTipoMov" listener="#{tipoMovimentoBean.clean}" />
+			
+			<h:form id="linkNovoTm" style="float: right;">
+				<h:panelGrid columns="2" style="text-align:right;">
+					<h:outputLabel value="Add Movimento"  onclick="tipoMovimentoDlg.show()"/>
+					<p:commandLink id="criarTipoMovLink" onclick="tipoMovimentoDlg.show()">
+						<h:graphicImage library="imagens" name="icones/addMiniPasta.png" />
+					</p:commandLink>
+				</h:panelGrid>
+			</h:form>
+			
+			<div style="clear: both;"></div>
+			<p:separator />
+			<h:form id="gerTipoMov">
+
+				<p:dataTable id="ListarTipoMov" value="#{tipoMovimentoBean.listar}"
+					var="tipoMov" cellpadding="5" emptyMessage="Não Possui Tipos de Movimentos"
+					filterEvent="enter" styleClass="myTable" scrollable="true"
+					scrollHeight="250" style="width: 900px;">
+
+					<f:facet name="header">Tabela de Tipos de Movimentos</f:facet>
+
+					<p:column headerText="Codigo"
+						style="width: 100px; text-align:center;">
+						<h:outputLabel value="#{tipoMov.codigo}" />
+					</p:column>
+
+					<p:column headerText="Tipo" style="width: 180px; text-align:center;">
+						<h:outputLabel value="#{tipoMov.descricao}" />
+					</p:column>
+
+					<p:column headerText="Editar" style="width: 123px; text-align:center;">
+						<p:commandLink id="editarMov" onclick="tipoMovimentoDlg.show()" update=":addTipoMovimento">
+							<h:graphicImage library="imagens" name="icones/editQuali.png" />
+							<f:setPropertyActionListener target="#{tipoMovimentoBean.tipoMovimento}" value="#{tipoMov}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Excluir"
+						style="width: 123px; text-align:center;">
+						<p:commandLink id="excluirEst" action="#{tipoMovimentoBean.excluir}" update=":gerTipoMov ListarTipoMov"
+							onclick="if(!confirm('Confirma a exclusão do Tipo #{tipoMov.descricao}?')) return false;">
+							
+							<h:graphicImage library="imagens" name="icones/delete.png" />
+							<f:setPropertyActionListener target="#{tipoMovimentoBean.tipoMovimento}" value="#{tipoMov}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+
+			</h:form>
+		</p:dialog>
+
+	</h:body>
+</f:view>
+</html>

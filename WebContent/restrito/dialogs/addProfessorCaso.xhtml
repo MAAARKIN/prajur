@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+
+	<p:dialog id="DlgGerProfCase" resizable="false" widgetVar="gerProfCaseDlg" modal="true" appendToBody="true" 
+			  header="Gerênciar Professores" draggable="false">
+	<p:ajax event="close" update="DlgGerProfCase" listener="#{professorCasoBean.clean}" />
+		<p:panel>	  
+		<h:form id="addProfCase">
+		<div>
+			<div style="float: left; margin-right: 10px;">
+				<p:autoComplete id="profCaseDD" dropdown="true" value="#{professorCasoBean.professor}"   
+                    					completeMethod="#{professorCasoBean.completeProf}" converter="professorConverter"
+                    					var="prof" itemValue="#{prof}" itemLabel="#{prof.nome}" required="false"
+                    					requiredMessage="Você não definiu nada" />
+                <p:message id="ProfMessage" for="profCaseDD" display="text" />
+                
+                <p:commandButton id="salvarProfCase" value="Salvar" action="#{professorCasoBean.salvar}" 
+											 update=":notifyGerCaso addProfCase ListarProfCaso :gerCaso" style="float:right;"/>
+                     		
+			</div>
+		
+			<div style="float: right;">
+				<p:dataTable id="ListarProfCaso" value="#{professorCasoBean.listar}" var="prof" 
+				styleClass="myTable" emptyMessage="Não Possui Professores" 
+				scrollable="true" scrollHeight="100" style="width: 360px; overflow-x: hidden;">
+					
+					<p:column headerText="Nome" style="width:159px; text-align: center;">
+						<h:outputLabel value="#{prof.nome}" />
+					</p:column>
+					
+					<p:column headerText="Excluir" style="text-align: center;">
+						<p:commandLink action="#{professorCasoBean.excluir}" update=":addProfCase :gerCaso">
+							<h:graphicImage library="imagens" name="icones/excluir.png" style="border: 0" />
+							<f:setPropertyActionListener target="#{professorCasoBean.professor}" value="#{prof}" />
+						</p:commandLink>
+					</p:column>
+				
+				</p:dataTable>		
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		
+		</h:form>
+		<div style="clear: both"></div>
+		</p:panel> 
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

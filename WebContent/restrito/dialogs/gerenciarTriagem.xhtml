@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgGerenciarTri" resizable="false" position="center" widgetVar="gerenciarTriDlg" modal="true" appendToBody="true" header="Gerenciar Triagem" draggable="false">
+	<p:ajax event="close" update="DlgGerenciarTri"/>
+			<p:growl id="notifyGerTri"/>
+			<h:form id="gerTri">
+				<h:inputHidden value="#{triagemBean.triagem.codigo}" />
+				<h:panelGrid columns="3">			        	
+			        	<h:panelGrid columns="1">
+			        		<h:outputLabel value="Natureza da Ação:" />
+				        	<p:inputText value="#{triagemBean.triagem.natureza}" size="20" />
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1" id="enc" >
+			        		<h:outputLabel value="*Encaminhamento:" />
+			        		<h:selectOneMenu id="encaminhamento" value="#{triagemBean.triagem.encaminhamento}" required="true" requiredMessage="*Campo Obrigatorio" >
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atendimento PRAJUR" itemValue="Atendimento"/>
+								<f:selectItem itemLabel="Audiência" itemValue="Audiência"/>
+								<f:selectItem itemLabel="Prazo Decorrendo" itemValue="Prazo Decorrendo"/>
+								<f:selectItem itemLabel="Outros" itemValue="Outros"/>																
+							</h:selectOneMenu>
+			        	</h:panelGrid>
+			        	
+			        	<h:panelGrid columns="1">
+			        		<h:outputLabel value="Informações Complementares:" />
+			        		<h:selectOneMenu id="infoComplementar" value="#{triagemBean.triagem.infoComplementar}">
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItem itemLabel="Envolve situação de violência" itemValue="Envolve situação de violência"/>
+								<f:selectItem itemLabel="Necessita de medida emergencial" itemValue="Necessita de medida emergencial"/>																					
+							</h:selectOneMenu>
+			        	</h:panelGrid>
+			     </h:panelGrid>
+
+						<div id="scrollPanel" style="overflow: auto; height:250px; width:700px; border: 2px solid #DDD; position: relative;">
+							<h:panelGrid columns="2">
+			        			<h:outputLabel value="Como soube do PRAJUR:" />
+				        		<p:inputText value="#{triagemBean.triagem.comoSoube}" size="40"/>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="3">
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Estado Civil:" />
+				        		<h:selectOneMenu id="estadoCivil" value="#{triagemBean.triagem.estadoCivil}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)"/>
+									<f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)"/>
+									<f:selectItem itemLabel="União Estável" itemValue="União Estável"/>	
+									<f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)"/>	
+									<f:selectItem itemLabel="Separado(a)" itemValue="Separado(a)"/>
+									<f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)"/>																					
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        	
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Escolaridade:" />
+				        		<h:selectOneMenu id="escolaridade" value="#{triagemBean.triagem.escolaridade}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Analfabeto" itemValue="Analfabeto"/>
+									<f:selectItem itemLabel="Analfabeto Funcional" itemValue="Analfabeto Funcional"/>
+									<f:selectItem itemLabel="Ensino Fundamental Incompleto" itemValue="Ensino Fundamental Incompleto"/>	
+									<f:selectItem itemLabel="Ensino Fundamental Completo" itemValue="Ensino Fundamental Completo"/>	
+									<f:selectItem itemLabel="Ensino Médio Incompleto" itemValue="Ensino Médio Incompleto"/>
+									<f:selectItem itemLabel="Ensino Médio Completo" itemValue="Ensino Médio Completo"/>
+									<f:selectItem itemLabel="Ensino Superior Incompleto" itemValue="Ensino Superior Incompleto"/>	
+									<f:selectItem itemLabel="Ensino Superior Completo" itemValue="Ensino Superior Completo"/>
+									<f:selectItem itemLabel="Pós-Graduação" itemValue="Pós-Graduação"/>																							
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Renda Fixa:" />
+				        		<h:selectOneMenu id="rendaFixa" value="#{triagemBean.triagem.rendaFixa}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Até um salário mínimo" itemValue="Até um salário mínimo"/>
+									<f:selectItem itemLabel="Entre um e dois salários mínimos" itemValue="Entre um e dois salários mínimos"/>
+									<f:selectItem itemLabel="Entre dois e três salários mínimos" itemValue="Entre dois e três salários mínimos"/>	
+									<f:selectItem itemLabel="Entre três e cinco salários mínimos" itemValue="Entre três e cinco salários mínimos"/>	
+									<f:selectItem itemLabel="Acima de cinco salários mínimos" itemValue="Acima de cinco salários mínimos"/>																																
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="2">		
+			        		
+			        		<h:panelGrid columns="1">
+				        		<h:outputLabel value="Renda Complementar:" />
+				        		<h:selectOneMenu id="rendaComp" value="#{triagemBean.triagem.rendaComplementar}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Bolsa Família" itemValue="Bolsa Família"/>
+									<f:selectItem itemLabel="Ajuda de Terceiros" itemValue="Ajuda de Terceiros"/>
+									<f:selectItem itemLabel="Pensão Alimentícia" itemValue="Pensão Alimentícia"/>	
+									<f:selectItem itemLabel="Pensão por Morte" itemValue="Pensão por Morte"/>	
+									<f:selectItem itemLabel="Aluguel" itemValue="Aluguel"/>
+									<f:selectItem itemLabel="Artesanato" itemValue="Artesanato"/>
+									<f:selectItem itemLabel="BPC - Beneficio de Prestação Continuada" itemValue="BPC - Beneficio de Prestação Continuada"/>
+									<f:selectItem itemLabel="Não Possui" itemValue="Não Possui"/>																																			
+								</h:selectOneMenu>
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGroup id="dep">			        		
+			        		<h:panelGrid columns="2">
+			        		<h:panelGrid columns="1">
+					        	<h:outputLabel value="Dependentes:" />
+					        	<h:selectOneMenu id="dependentes" value="#{triagemBean.triagem.dependentes}" immediate="true">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Sim" itemValue="Sim"/>
+									<f:selectItem itemLabel="Não" itemValue="Não"/>
+									<p:ajax update="dep numDep" />																					
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+			        		
+			        		<h:panelGrid id="numDep" columns="1" rendered="#{triagemBean.triagem.dependentes == 'Sim'}">
+				        		<h:outputLabel value="Numero de Dependentes:" />
+				        		<p:inputText value="#{triagemBean.triagem.numDependentes}" />
+				        	</h:panelGrid>
+				        	</h:panelGrid>
+				        	</h:panelGroup>
+				        	
+			        		</h:panelGrid>			        
+			        		
+			        		<h:panelGrid columns="4">
+			        		<h:panelGrid columns="1">
+					        	<h:outputLabel value="Localidade da residência:" />
+					        	<h:selectOneMenu value="#{triagemBean.triagem.localidade}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Rural" itemValue="Rural"/>
+									<f:selectItem itemLabel="Urbano" itemValue="Urbano"/>																			
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Tipo do imóvel:" />
+					        	<h:selectOneMenu value="#{triagemBean.triagem.tipoImovel}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Casa" itemValue="Casa"/>
+									<f:selectItem itemLabel="Apartamento" itemValue="Apartamento"/>
+									<f:selectItem itemLabel="Barracão" itemValue="Barracão"/>	
+									<f:selectItem itemLabel="Sítio ou Chácara" itemValue="Sítio ou Chácara"/>	
+									<f:selectItem itemLabel="Fazenda" itemValue="Fazenda"/>																													
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Situação do imóvel:" />
+					        	<h:selectOneMenu value="#{triagemBean.triagem.situacaoImovel}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Alugado" itemValue="Alugado"/>
+									<f:selectItem itemLabel="Próprio, quitado" itemValue="Próprio, quitado"/>
+									<f:selectItem itemLabel="Próprio por herença" itemValue="Próprio por herença"/>	
+									<f:selectItem itemLabel="Financiado" itemValue="Financiado"/>	
+									<f:selectItem itemLabel="Cedido" itemValue="Cedido"/>																													
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Religião:" />
+					        	<h:selectOneMenu value="#{triagemBean.triagem.religiao}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Adventista" itemValue="Adventista"/>
+									<f:selectItem itemLabel="Candomblé" itemValue="Candomblé"/>
+									<f:selectItem itemLabel="Católica" itemValue="Católica"/>	
+									<f:selectItem itemLabel="Espírita" itemValue="Espírita"/>	
+									<f:selectItem itemLabel="Evangélica" itemValue="Evangélica"/>
+									<f:selectItem itemLabel="Judaica" itemValue="Judaica"/>
+									<f:selectItem itemLabel="Umbanda" itemValue="Umbanda"/>
+									<f:selectItem itemLabel="Outra" itemValue="Outra"/>	
+									<f:selectItem itemLabel="Não Informada" itemValue="Não Informada"/>																																
+								</h:selectOneMenu>
+				        	</h:panelGrid>
+				        	
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGroup id="ness">
+				        	<h:panelGrid columns="4">
+				        	<h:panelGrid columns="1">
+					        	<h:outputLabel value="Necessidades Especiais:" />
+					        	<h:selectOneMenu value="#{triagemBean.triagem.necessidadeEspecial}">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItem itemLabel="Sim" itemValue="Sim"/>
+									<f:selectItem itemLabel="Não" itemValue="Não"/>
+									<p:ajax update="ness necessEsp grauParent despMens" />																																							
+								</h:selectOneMenu>
+				        	</h:panelGrid>			        
+			        		
+			        		<h:panelGrid id="necessEsp" columns="1" rendered="#{triagemBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Especifique:" />
+				        		<p:inputText value="#{triagemBean.triagem.especifique}" />
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid id="grauParent" columns="1" rendered="#{triagemBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Grau de Parentesco:" />
+				        		<p:inputText value="#{triagemBean.triagem.grauParentesco}" />
+				        	</h:panelGrid>
+				        	
+				        	<h:panelGrid id="despMens" columns="1" rendered="#{triagemBean.triagem.necessidadeEspecial == 'Sim'}">
+					        	<h:outputLabel value="Despesas Mensais:" />
+				        		<p:inputText value="#{triagemBean.triagem.dispesaMensal}" />
+				        	</h:panelGrid>  
+			        		</h:panelGrid>
+			        		</h:panelGroup>
+			        		<h:panelGrid columns="1">
+			        			<h:outputText value="Políticas Públicas: " />  
+							        <p:selectManyCheckbox value="#{triagemBean.politicas}" layout="pageDirection" >  
+							            <f:selectItem itemLabel="Rede de Esgoto" itemValue="Rede de Esgoto" />  
+							            <f:selectItem itemLabel="Água tratada" itemValue="Água tratada" />  
+							            <f:selectItem itemLabel="Iluminação Pública" itemValue="Iluminação Pública" />
+							            <f:selectItem itemLabel="Lixo Recolhido" itemValue="Lixo Recolhido" />
+							            <f:selectItem itemLabel="Ruas Pavimentadas" itemValue="Ruas Pavimentadas" />  
+							            <f:selectItem itemLabel="Atendimento de saúde básica" itemValue="Atendimento de saúde básica" />  
+							            <f:selectItem itemLabel="Serviços de Educação" itemValue="Serviços de Educação" />  
+							            <f:selectItem itemLabel="Transporte Público" itemValue="Transporte Público" />      
+							        </p:selectManyCheckbox> 
+			        		</h:panelGrid>
+			        		
+			        		<h:panelGrid columns="1" style="margin-bottom: 10px;">
+				        		<h:outputText value="Resultado: " />  
+						        <p:selectOneRadio id="result" value="#{triagemBean.triagem.resultado}">  
+						            <f:selectItem itemLabel="Procedente" itemValue="Procedente" />  
+						            <f:selectItem itemLabel="Improcedente" itemValue="Improcedente" />						          
+						        </p:selectOneRadio>
+					        </h:panelGrid>
+					        
+					        <h:panelGrid columns="1" style="margin-bottom: 10px;">
+				        		<h:outputText value="Observação: " />
+				        		<p:inputTextarea value="#{triagemBean.triagem.observacao}" style="width: 300px;" />  
+						        
+					        </h:panelGrid>
+					        
+					</div>
+					<p:commandButton value="Salvar" action="#{triagemBean.salvar}" update=":notifyGerTri" oncomplete="gerenciarTriDlg.hide()" style="margin-top: 10px;" />
+			</h:form>
+
+			<div style="clear: both;"></div>
+		</p:dialog>
+
+</h:body>
+</f:view>
+</html>

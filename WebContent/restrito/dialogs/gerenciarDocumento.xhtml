@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<p:dialog id="DlgGerenciarDoc" resizable="false" position="center" widgetVar="gerenciarDocDlg" modal="true" appendToBody="true" header="Gerenciar Documentos" draggable="false">
+	<p:ajax event="close" update="DlgGerenciarDoc"/>
+			<p:growl id="notifyGerDoc"/>
+			<h:form id="gerDoc">
+				<h:inputHidden value="#{documentoBean.documento.codigo}" />
+				<div style="float: left;">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Documentos solicitados para o atendimento:" />
+						<h:panelGroup>
+							<h:selectOneMenu id="docDesc"
+								value="#{documentoBean.documento.descricao}"
+								style="margin-right: 10px;">
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItem itemLabel="CPF" itemValue="CPF" />
+								<f:selectItem itemLabel="RG" itemValue="RG" />
+								<f:selectItem itemLabel="Certidão de Nascimento" itemValue="Certidão de Nascimento" />
+								<f:selectItem itemLabel="Certidão de Casamento" itemValue="Certidão de Casamento" />
+							</h:selectOneMenu>
+							<p:commandButton value="Salvar" icon="ui-icon-check" action="#{documentoBean.salvar}" update="gerDoc ListarDocs :notifyGerDoc" style="margin:0" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</div>
+				<div style="float: right;">
+					<p:dataTable id="ListarDocs" value="#{documentoBean.listar}" styleClass="myTable" var="documento" 
+						cellpadding="5" emptyMessage="Não Possui Documentos" scrollable="true">
+
+						<p:column headerText="Documentos" style="width:200px;">
+							<h:outputLabel value="#{documento.descricao}" />
+						</p:column>
+						
+						<p:column headerText="Excluir" style="width: 66px; text-align:center;">
+							<p:commandLink action="#{documentoBean.excluir}" update=":gerDoc ListarDocs" onclick="if(!confirm('Confirma a exclusão do documento #{documento.descricao}?')) return false;">
+								<h:graphicImage library="imagens" name="icones/excluir.png" style="border: 0" />
+								<f:setPropertyActionListener target="#{documentoBean.documento}" value="#{documento}" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+
+			</h:form>
+
+			<div style="clear: both;"></div>
+		</p:dialog>
+
+</h:body>
+</f:view>
+</html>

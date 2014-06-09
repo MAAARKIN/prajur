@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+
+	<ui:include src="addProcedimentoCaso.xhtml" />
+	<ui:include src="addMovimentoCaso.xhtml" />
+	<ui:include src="addProfessorCaso.xhtml" />
+	<ui:include src="addAdvogadoCaso.xhtml" />
+	<ui:include src="addEstagiarioCaso.xhtml" />
+	
+	<p:dialog id="DlgGerCaso" resizable="false" widgetVar="gerCasoDlg" modal="true" appendToBody="true" 
+			  header="Gerênciar Caso" draggable="false">
+	<p:ajax event="close" update="DlgGerCaso" listener="#{casoBean.clean}" />
+		<p:growl id="notifyGerCaso" showDetail="true" sticky="true"/>
+		
+		<h:form id="gerCaso">
+		
+		<p:dataTable id="ListarCaso" value="#{casoBean.listar}" var="caso" 
+				cellpadding="5" rows="5" emptyMessage="Não Possui Casos" filterEvent="enter" 
+				scrollable="true" scrollHeight="250" style="width: 950px;">
+				
+					<f:facet name="header">Tabelas de Casos Cadastrados</f:facet>
+									
+					<p:column headerText="Data" style="width: 135px;">
+						<h:outputLabel value="#{caso.pasta.data}" />
+					</p:column>
+					
+					<p:column headerText="Procedimento" style="width: 200px;">
+						<h:panelGrid columns="2" styleClass="myPanel">
+							<p:dataTable value="#{caso.procedimento}" var="proc" rows="1" styleClass="subTable">
+								<p:column>
+							    	<h:outputText value="#{proc.tipoProcedimento.descricao}" />
+								</p:column>  
+							</p:dataTable>
+							
+							<p:commandLink id="gerProcedimento" onclick="gerProcCaseDlg.show()" update=":addProcCase">
+								<h:graphicImage library="imagens" name="icones/gerColumnsCase.png" />
+								<f:setPropertyActionListener target="#{procedimentoCasoBean.caso}" value="#{caso}" />
+							</p:commandLink>
+						</h:panelGrid>
+					</p:column>
+					
+					<p:column headerText="Movimento" style="width: 200px;">
+						<h:panelGrid id="gerMov" columns="2" styleClass="myPanel">
+							<p:dataTable value="#{caso.movimento}" var="mov" rows="1" styleClass="subTable" >
+								<p:column>  
+							    	<h:outputText value="#{mov.tipoMovimento.descricao}"/>
+							    </p:column>							    
+							</p:dataTable>
+							
+							<p:commandLink id="gerMovimento" onclick="gerMovCaseDlg.show()" update=":addMovCase">
+								<h:graphicImage library="imagens" name="icones/gerColumnsCase.png" />
+								<f:setPropertyActionListener target="#{movimentoCasoBean.caso}" value="#{caso}" />
+							</p:commandLink>
+						</h:panelGrid>
+					</p:column>
+					
+					<p:column headerText="Professores" style="width: 200px;">
+						<h:panelGrid columns="2" styleClass="myPanel" style="margin-left:auto; margin-right:auto;">
+							<p:commandLink id="gerProf" onclick="gerProfCaseDlg.show()" update=":addProfCase" >
+								<h:graphicImage library="imagens" name="icones/teacherMini.png" />
+								<f:setPropertyActionListener target="#{professorCasoBean.caso}" value="#{caso}" />
+							</p:commandLink>
+						</h:panelGrid>
+					</p:column>
+					
+					<p:column headerText="Advogados">
+						<h:panelGrid columns="2" styleClass="myPanel" style="margin-left:auto; margin-right:auto;">
+							<p:commandLink id="gerAdv" onclick="gerAdvCaseDlg.show()" update=":addAdvCase" >
+								<h:graphicImage library="imagens" name="icones/advogadoMini.png" />
+								<f:setPropertyActionListener target="#{advogadoCasoBean.caso}" value="#{caso}" />
+							</p:commandLink>
+						</h:panelGrid>
+					</p:column>
+					
+					<p:column headerText="Estagiarios">
+						<h:panelGrid columns="2" styleClass="myPanel" style="margin-left:auto; margin-right:auto;">
+							<p:commandLink id="gerEst" onclick="gerEstCaseDlg.show()" update=":addEstCase" >
+								<h:graphicImage library="imagens" name="icones/advogadoMini.png" />
+								<f:setPropertyActionListener target="#{estagiarioCasoBean.caso}" value="#{caso}" />
+							</p:commandLink>
+						</h:panelGrid>
+					</p:column>		
+					
+				</p:dataTable>
+			
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</f:view>
+</html>

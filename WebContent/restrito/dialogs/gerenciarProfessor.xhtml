@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">	
+<h:body>
+	<ui:include src="addProfessor.xhtml" />
+		<p:dialog id="DlgGerProf" resizable="false" widgetVar="gerProfDlg"
+			modal="true" appendToBody="true" header="Gerenciar Professores"
+			draggable="false">
+			
+			<p:ajax event="close" update="DlgGerProf" listener="#{professorBean.clean}" />
+			
+			<h:form id="linkNovoProf" style="float: right;">
+				<h:panelGrid columns="2" style="text-align:right;">
+					<h:outputLabel value="Add Professor"  onclick="professorDlg.show()"/>
+					<p:commandLink id="criarProfLink" onclick="professorDlg.show()">
+						<h:graphicImage library="imagens" name="icones/addMiniPasta.png" />
+					</p:commandLink>
+				</h:panelGrid>
+			</h:form>
+			
+			<div style="clear: both;"></div>
+			<p:separator />
+			<h:form id="gerProf">
+
+				<p:dataTable id="ListarProf" value="#{professorBean.listar}"
+					var="prof" cellpadding="5" emptyMessage="Não Possui Professores"
+					filterEvent="enter" styleClass="myTable" scrollable="true"
+					scrollHeight="250" style="width: 900px;">
+
+					<f:facet name="header">Tabela de Professores</f:facet>
+
+					<p:column headerText="Nome"
+						style="width: 100px; text-align:center;">
+						<h:outputLabel value="#{prof.nome}" />
+					</p:column>
+
+					<p:column headerText="Editar" style="width: 123px; text-align:center;">
+						<p:commandLink id="editarProf" onclick="professorDlg.show()" update=":addProfessor">
+							<h:graphicImage library="imagens" name="icones/editQuali.png" />
+							<f:setPropertyActionListener target="#{professorBean.professor}" value="#{prof}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Excluir"
+						style="width: 123px; text-align:center;">
+						<p:commandLink id="excluirProf" action="#{professorBean.excluir}" update=":gerProf ListarProf"
+							onclick="if(!confirm('Confirma a exclusão do professor #{prof.nome}?')) return false;">
+							
+							<h:graphicImage library="imagens" name="icones/delete.png" />
+							<f:setPropertyActionListener target="#{professorBean.professor}" value="#{prof}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+
+			</h:form>
+		</p:dialog>
+
+	</h:body>
+</f:view>
+</html>
